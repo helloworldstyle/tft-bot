@@ -10,6 +10,14 @@ find_match_button_tuple = (855, 868)
 accept_match_button_tuple = (950, 742)
 acceptButton = [(913, 727), (1013, 749)]
 
+acceptButtonBenniPC= [(907, 702), (1013, 724)]
+play_button_tuple_Benni_PC = (439, 203)
+tft_button_tuple2_Benni_PC = (944, 445)
+ranked_button_tuple2_Benni_PC = (888, 736)
+confirm_button_tuple_Benni_PC = (854, 849)
+find_match_button_tuple_Benni_PC = (854, 849)
+# accept_match_button_tuple_Benni_PC = (955, 722) # not in use
+acceptButtonBenniPC = [(907, 702), (1013, 724)]
 
 exit_now_tuple = (827, 555)
 exit_now = [(772, 537), (886, 565)]

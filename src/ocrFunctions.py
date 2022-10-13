@@ -3,6 +3,7 @@ from re import X
 import coordinates
 import champions
 import comps
+import controlMode
 
 from PIL import ImageGrab
 import time
@@ -12,14 +13,23 @@ import cv2 as cv
 import mss
 import numpy
 import pytesseract
-pytesseract.pytesseract.tesseract_cmd = r'C://Program Files//Tesseract-OCR//tesseract.exe'
+
+if(controlMode.tobi_pc):
+    pytesseract.pytesseract.tesseract_cmd = r'C://Program Files//Tesseract-OCR//tesseract.exe'
+if(controlMode.benni_pc):
+    pytesseract.pytesseract.tesseract_cmd = r'C://Users//Bennitim//AppData//Local//Tesseract-OCR//tesseract.exe'
 
 def take_screenshot():
     screenshot = pyautogui.screenshot()
     screenshot.save("screen2.png")
-    file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/git-projects/tft-bot/screen2.png')
+    if(controlMode.tobi_pc):     
+        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/Documents/Tobias/tft_cheater_current_version/screen2.png')
+    if(controlMode.benni_pc):
+        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/current-tft-bot/screen2.png')
     assert os.path.exists(file_name)    
     img = cv.imread(file_name)
+    # cv.imshow("thresholding", img)
+    # cv.waitKey(0)
     return img
 
 time.sleep(1)

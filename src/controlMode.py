@@ -10,7 +10,11 @@ layout_recognized = False
 item_bench_layout = coordinates.item_bench_layout2 # default
 item_bench_name_layout = coordinates.item_name_bench_layout2 # default
 
+play_ranked_game = False
+
 lux_comp_active = True
 
+tobi_pc = False
+benni_pc = True
 # if((talon_comp_active and ashe_comp_active) or (not talon_comp_active and not ashe_comp_active)):
 #     print("error: check comp_active Button")
