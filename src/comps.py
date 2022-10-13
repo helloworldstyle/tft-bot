@@ -6,10 +6,15 @@ import coordinates
 # Astral comp
 champs_with_items = ["Lux", "Sylas", "Varus", "Skarner"]
 best_lux_items = ["JeweledGauntlet", "SpearofShojin", "ArchangelsStaff"]
+lux_items_equipped = [False, False, False]
 best_sylas_items = ["SunfireCape", "GargoyleStoneplate"]
+sylas_items_equipped = [False, False]
 best_varus_items = ["MageEmblem", "StatikkShiv", "GuinsoosRageblade"]
+varus_items_equipped = [False, False, False]
 best_skarner_items = ["ProtectorsVow"]
+skarner_items_equipped = [False]
 item_lists = [best_lux_items, best_sylas_items, best_varus_items, best_skarner_items]
+equipped_items_boolean_lists = [lux_items_equipped, sylas_items_equipped, varus_items_equipped, skarner_items_equipped]
 
 # lvl 8 with Aurelion Sol
 final_lux_comp_with_aurelion = ["Skarner", 3, best_skarner_items, 3, "Sylas", 5, best_sylas_items, 2,
