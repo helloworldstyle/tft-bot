@@ -4,6 +4,7 @@ import pydirectinput
 import time
 import ocrFunctions
 import coordinates
+import controlMode
 #import ocrFunctions
 
 def copy():
@@ -83,29 +84,55 @@ def move_things(from_where_coord, to_there_coord):
 
 # TODO: create find_match version for special event with tft_button_tuple and do settings to switch between mode
 def find_match():
-    # queue up with keyboard functions
-    left_click(coordinates.play_button_tuple)
-    time.sleep(1)
-    left_click(coordinates.tft_button_tuple)
-    #left_click(coordinates.ranked_button_tuple2) # currently just normals
-    left_click(coordinates.confirm_button_tuple)
-    time.sleep(4)
-    left_click(coordinates.find_match_button_tuple)
+    if(controlMode.tobi_pc):
+        # queue up with keyboard functions
+        left_click(coordinates.play_button_tuple)
+        time.sleep(1)
+        left_click(coordinates.tft_button_tuple)
+        if(controlMode.play_ranked_game):
+            left_click(coordinates.ranked_button_tuple2)
+        left_click(coordinates.confirm_button_tuple)
+        time.sleep(4)
+        left_click(coordinates.find_match_button_tuple)
 
-    # check if game was found and game started
-    inGame = False
-    while(not inGame):
-        img = ocrFunctions.take_screenshot()
-        text_inGame_str = ocrFunctions.lack_for_a_better_name(coordinates.stage_one, img)
-        text_inGame = text_inGame_str.split("-")[0]
-        text_foundAgain_str = ocrFunctions.lack_for_a_better_name(coordinates.acceptButton, img)
-        text_foundAgain = text_foundAgain_str.split("!")[0]
+        # check if game was found and game started
+        inGame = False
+        while(not inGame):
+            img = ocrFunctions.take_screenshot()
+            text_inGame_str = ocrFunctions.lack_for_a_better_name(coordinates.stage_one, img)
+            text_inGame = text_inGame_str.split("-")[0]
+            text_foundAgain_str = ocrFunctions.lack_for_a_better_name(coordinates.acceptButton, img)
+            text_foundAgain = text_foundAgain_str.split("!")[0]
+            if(text_foundAgain == "ACCEPT"):
+                accept_match()
+            if(text_inGame == "1"):
+                inGame = True
+            time.sleep(2)
 
-        if(text_foundAgain == "ACCEPT"):
-            accept_match()
-        if(text_inGame == "1"):
-            inGame = True
-        time.sleep(2)
+    elif(controlMode.benni_pc):
+        # queue up with keyboard functions
+        left_click(coordinates.play_button_tuple_Benni_PC)
+        time.sleep(1)
+        left_click(coordinates.tft_button_tuple2_Benni_PC)
+        if(controlMode.play_ranked_game):
+            left_click(coordinates.ranked_button_tuple2_Benni_PC)
+        left_click(coordinates.confirm_button_tuple_Benni_PC)
+        time.sleep(4)
+        left_click(coordinates.find_match_button_tuple_Benni_PC)
+
+        # check if game was found and game started
+        inGame = False
+        while(not inGame):
+            img = ocrFunctions.take_screenshot()
+            text_inGame_str = ocrFunctions.lack_for_a_better_name(coordinates.stage_one, img)
+            text_inGame = text_inGame_str.split("-")[0]
+            text_foundAgain_str = ocrFunctions.lack_for_a_better_name(coordinates.acceptButtonBenniPC, img)
+            text_foundAgain = text_foundAgain_str.split("!")[0]
+            if(text_foundAgain == "ACCEPT"):
+                accept_match()
+            if(text_inGame == "1"):
+                inGame = True
+            time.sleep(2)
 
 def find_new_match():
     # queue up with keyboard functions

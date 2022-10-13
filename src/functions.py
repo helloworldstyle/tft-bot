@@ -107,6 +107,24 @@ def get_stage2():
     else:
         return "Couldn't read stage number"
 
+# alternative for reading the stages
+# def get_stage_type() -> str:
+#     stage_one = ocrFunctions.get_text_ImageGrab(coordinates.stage_one, 3, '10', '0123456789-')
+#     stage_two_plus = ocrFunctions.get_text_ImageGrab(coordinates.stage_two_plus, 3, '10', '0123456789-')
+#     if (generalData.rounds.__contains__(stage_one)):
+#         stage = stage_one
+#     elif(generalData.rounds.__contains__(stage_two_plus)):
+#         stage = stage_two_plus
+#     else:
+#         return "Couldn't read stage number"
+    
+#     if(generalData.pvp_round.__contains__(stage)):
+#         return ("pvp", stage)
+#     if(generalData.pve_round.__contains__(stage)):
+#         return "pve"
+#     if(generalData.carousel_round.__contains__(stage)):
+#         return "carousel"
+
 def get_stage_type_without_screenshot(stage) -> str:
     if(generalData.pvp_round.__contains__(stage)):
         return "pvp"
@@ -273,6 +291,15 @@ def pick_up_orbs():
         if(loc1 == (0,0) and loc2 == (0,0) and loc3 == (0,0)):
             tru = False
 
+# def get_champ_names_shop():
+#     names = []
+#     for i in range(0,9,2):
+#         coords = (coordinates.champ_names_shop[i], coordinates.champ_names_shop[i + 1])
+#         name = ocrFunctions.get_text_ImageGrab(coords, 3, "10", "")
+#         print(name)
+#         names.append(name)
+#     return names
+
 def get_champ_names_shop_smart():
     image_bench = ocrFunctions.take_screenshot()
     names = []
@@ -291,6 +318,174 @@ def get_champ_names_shop_smart():
             most_similair_name = get_champ_with_longest_same_substring(find_champ_with_longest_same_substring(name))
             names.append(most_similair_name)
     return names
+
+# def putCharsInOrder(chars):
+#         notInOrder = True
+#         while notInOrder:
+#             swapCounter = 0
+#             for i in range(len(chars) - 1):
+#                 if(chars[i] > chars[i + 1]) :
+#                     helper = chars[i]
+#                     chars[i] = chars[i + 1]
+#                     chars[i + 1] = helper
+#                     swapCounter += 1
+#             if(swapCounter == 0):
+#                 notInOrder = False
+#         return chars
+
+# def exclude_same_chars(chars):
+#     excluded_chars = []
+#     index_to_delete = []
+#     for i in range(len(chars) - 1):
+#         if(chars[i] == chars[i + 1]):
+#             excluded_chars.append(chars[i + 1])
+#             index_to_delete.append(i + 1)
+
+#     # delete excluded chars in original list
+#     deleted_chars = 0
+#     for i in range(len(index_to_delete)):
+#         del chars[index_to_delete[i] - deleted_chars]
+#         deleted_chars += 1
+#     return (chars, excluded_chars)
+
+# not used atm but worth a try
+# def champ_names_are_equal_enough(word1, word2, differencesAllowed):
+#         chars1 = list(word1)
+#         chars2 = list(word2)
+#         chars1InOrder = putCharsInOrder(chars1)
+#         chars2InOrder = putCharsInOrder(chars2)
+
+#         helper1 = exclude_same_chars(chars1InOrder)
+#         pureChars1InOrder = helper1[0]
+#         excludedChars1 = helper1[1]
+        
+#         helper2 = exclude_same_chars(chars2InOrder)
+#         pureChars2InOrder = helper2[0]
+#         excludedChars2 = helper2[1]
+
+        
+#         pure_difference1 = list(set(pureChars1InOrder).difference(set(pureChars2InOrder)))
+#         pure_difference2 = list(set(pureChars2InOrder).difference(set(pureChars1InOrder)))
+#         excluded_difference1 = list(set(excludedChars1).difference(set(excludedChars2)))
+#         excluded_difference2 = list(set(excludedChars2).difference(set(excludedChars1)))
+
+#         pure_difference = max(len(pure_difference1), len(pure_difference2))
+#         excluded_difference = min(len(excluded_difference1), len(excluded_difference2))
+
+#         differences = pure_difference + excluded_difference + abs(len(excludedChars1) - len(excludedChars2))
+
+#         if(differences <= differencesAllowed):
+#             return True
+#         else:
+#             return False
+
+# print(champ_names_are_equal_enough("Illaoi", "Tllllaoiopx", 2))
+
+# for i in range(len(generalData.champions_list)):
+#     for l in range(len(generalData.champions_list) - i - 1):
+#         if(champ_names_are_equal_enough(generalData.champions_list[i], generalData.champions_list[i + 1 + l], 1)):
+#             print(generalData.champions_list[i])
+#             print(generalData.champions_list[i + 1 + l])
+
+
+# def equals(word1, word2, mistakesAllowed):
+#     differences = 0
+
+#     if(word1 == word2): # if word1 equals word2, we can always return true
+#         return True
+
+#     if(len(word1) == len(word2)): # if word1 is as long as word 2
+#         for i in range(len(word1)): # go from first to last character index the words
+#             if(word1[i] != word2[i]): # if this character from word 1 does not equal the character from word 2
+#                 mistakesAllowed -= 1 # reduce one mistake allowed
+#                 if(mistakesAllowed < 0): # and if you have more mistakes than allowed
+#                     return False; # return false
+
+#     else: # if word1 and word2 are not the same length
+#         chars1 = list(word1)
+#         chars2 = list(word2)
+#         chars1InOrder = putCharsInOrder(chars1)
+#         chars2InOrder = putCharsInOrder(chars2)
+#         # print(chars1InOrder)
+#         # print(chars2InOrder)
+
+#         chars1List = getCharList(chars1InOrder)
+#         chars2List = getCharList(chars2InOrder)
+
+#         lettersUsed1 = chars1List[0]
+#         lettersUsed2 = chars2List[0]
+#         lettersCount1 = chars1List[1]
+#         lettersCount2 = chars2List[1]
+#         # print(lettersUsed1)
+#         # print(lettersUsed2)
+
+#         sharedChars = list(set(lettersUsed1).intersection(set(lettersUsed2)))
+#         combinedCharLists = lettersUsed1 + lettersUsed2
+#         notSharedChars = list(set(combinedCharLists).difference(set(sharedChars)))
+#         # print(combinedCharLists)
+#         # print(sharedChars)
+#         # print(notSharedChars)
+
+#         for i in range(len(sharedChars)):
+#             indexInList1 = get_index_of_char(sharedChars[i], lettersUsed1)
+#             indexInList2 = get_index_of_char(sharedChars[i], lettersUsed2)
+
+#             differences += abs(lettersCount1[indexInList1] - lettersCount2[indexInList2])
+        
+#         for i in range(len(lettersUsed1)):
+#             if(notSharedChars.__contains__(lettersUsed1[i])):
+#                 differences += lettersCount1[i]
+
+#         for i in range(len(lettersUsed2)):
+#             if(notSharedChars.__contains__(lettersUsed2[i])):
+#                 differences += lettersCount2[i]
+        
+#     if(differences <= mistakesAllowed):
+#         return True
+#     else:
+#         return False
+
+# def get_index_of_char(char, list):
+#     for i in range(len(list)):
+#         if(list[i] == char):
+#             return i
+
+# def getCharList(chars):
+#     chars_list = [] 
+#     chars_amount_list = []
+#     index = 0
+#     f = index + 1
+
+#     # get how many diff chars
+#     diff_chars_amount = len(set(chars))
+#     while(index != len(chars)):
+#         counter = 1
+
+#         if(len(chars_list) == diff_chars_amount - 1):
+#             chars_recognized = 0
+#             for i in range(len(chars_amount_list)):
+#                 chars_recognized += chars_amount_list[i]
+
+#             chars_list.append(chars[index])
+#             chars_amount_list.append(len(chars) - chars_recognized)
+#             return (chars_list, chars_amount_list)
+
+#         while(chars[index] == chars[f] and len(chars_list) != diff_chars_amount - 1):
+#             counter += 1
+#             index += 1
+#             f = index + 1
+
+#         chars_list.append(chars[index])
+#         chars_amount_list.append(counter)
+
+#         index += 1
+#         f = index + 1
+
+# for i in range(len(generalData.champions_list)):
+#     for l in range(len(generalData.champions_list) - i - 1):
+#         if(equals(generalData.champions_list[i], generalData.champions_list[i + 1 + l], 2)):
+#             print(generalData.champions_list[i])
+#             print(generalData.champions_list[i + 1 + l])
 
 def find_champ_with_longest_same_substring(name_ocr):
     length_longest_substring = []
@@ -507,6 +702,27 @@ def sell_champs_on_bench():
     for i in range(len(champs_to_delete) - 1, -1, -1):
         champions.delChamp(champions.getChampionCoords(champs_to_delete[i]))
 
+# def place_bench_champs_in_order():
+#     # list with champs on bench
+#     for l in range(len(champions.current_champions)):
+#         if(champions.current_champions[l].onBoardBool == False):
+#             champions.current_champions_on_bench.append(champions.current_champions[l])
+
+#     champs_on_bench_amount = len(champions.current_champions_on_bench)
+#     for i in range(champs_on_bench_amount):
+#         index_bench_slot = len(coordinates.bench_champs) - 1 - i
+#         if(champions.getChampionIndexOnBench(coordinates.bench_champs[index_bench_slot]) == -1):
+#             # find champ that can go to this slot
+#             for f in range(index_bench_slot):
+#                 if(not(champions.getChampionIndexOnBench(coordinates.bench_champs[f]) == -1)):
+#                     keyboardFunctions.move_things(coordinates.bench_champs[f], coordinates.bench_champs[index_bench_slot])
+#                     champions.changePosChamp(coordinates.bench_champs[f], coordinates.bench_champs[index_bench_slot])
+#                     champions.changePosChampOnBench(coordinates.bench_champs[f], coordinates.bench_champs[index_bench_slot])
+#                     print("pos changed sucessfully")
+#                     break
+#         else:
+#             continue
+
 def search_for_new_items_on_bench():
     print("     search for new items on bench")
     items.current_items = []
@@ -525,7 +741,6 @@ def search_for_new_items_on_bench():
         if(len(item_name) > 5):
             valid = True
             item_part_name = get_item_with_longest_same_substring(find_item_with_longest_same_substring(item_name))
-            print(item_part_name)
 
         # for l in range(len(generalData.items_list)):
         #     if(item_name.find(generalData.items_list[l]) != -1):
@@ -537,7 +752,7 @@ def search_for_new_items_on_bench():
             continue # TODO insert equal function
 
         else:
-            if(items.getItemIndex(controlMode.item_bench_layout[i]) == -1): # if item doesnt exists yet as a digital copy
+            if(items.getItemIndex(controlMode.item_bench_layout[i]) == -1): # if copy of item doesnt exists yet
                 print(controlMode.get_index_of_items_on_bench(controlMode.item_bench_layout[i]))
                 items.addItem(item_part_name, controlMode.item_bench_layout[i], True)
 
@@ -562,11 +777,10 @@ def equip_items():
                 place_item_here = champions.current_champions[champs].coords
                 item_carrier_on_board = True
 
-        # look for matching items if the item carrier is on board
+        # look for matching items
         #TODO: same item cant be given twice on same champ per game and loop/check for other items
         both_parts_available = False
         if(item_carrier_on_board):
-            # looking for two matching item parts of this certain item carrier
             while(not both_parts_available):
                 print("in loop")
                 specific_item_list = comps.item_lists[big_index]
@@ -587,9 +801,8 @@ def equip_items():
                                     print("found part two")
                                     pair_two_available = True
                                     item_two_index = m
-                    items_equipped = comps.equipped_items_boolean_lists[big_index]
-                    item_already_on_champ = items_equipped[i]
-                    if(pair_one_available and pair_two_available and not item_already_on_champ):
+                    
+                    if(pair_one_available and pair_two_available):
                         print("found both parts")
                         print(item_one_index)
                         print(item_two_index)
@@ -603,9 +816,6 @@ def equip_items():
                         else:
                             items.delItem(items.current_items[item_two_index].coords)
                             items.delItem(items.current_items[item_one_index].coords)
-                        
-                        # set specific item is equipped by specific champ true
-                        items_equipped[i] = True
 
                         print("moved items")
 
@@ -621,6 +831,24 @@ def place_how_many_champs_on_board(lvl):
     print(lvl-num_champs_on_board)
     return lvl - num_champs_on_board
 
+#TODO merge this func and "give_special_champs.."
+# def place_em_on_board(lvl):
+#     place_so_many_on_board = place_how_many_champs_on_board(lvl)
+#     if(place_so_many_on_board == 1):
+#         coordsChampOnBench = champions.findChampionOnBenchAndGetCoords()
+#         # find empty space on board
+#         for i in range(len(coordinates.champs_on_board)):
+#             placeIsEmpty = True
+#             for l in range(len(champions.current_champions)):
+#                 if(champions.current_champions[l].coords == coordinates.champs_on_board[i]):
+#                     placeIsEmpty = False
+#             if(placeIsEmpty):
+#                 coordsPlaceHere = coordinates.champs_on_board[i]
+#         keyboardFunctions.move_things(coordsChampOnBench, coordsPlaceHere)
+#         champions.changePosChamp(coordsChampOnBench, coordsPlaceHere)
+#         print("move champ from here: " + str(coordsChampOnBench) + "to " + str(coordsPlaceHere))
+#     #for i in range(place_how_many_champs_on_board):
+
 def get_how_many_unique_wanted_champs_registered():
     counter = 0
     for i in range(len(comps.lux_comp_champs_on_board)):
@@ -635,7 +863,6 @@ def get_empty_space_on_board():
             list_not_available_slots.append(champions.getChampionIndex(champions.current_champions[i].coords))
     for i in range(len(coordinates.champs_on_board)):
         if(not i in list_not_available_slots and not i in comps.lux_comp_placement_on_board_list):
-            print("empty slot on board:" + str(i))
             return i
 
 def get_empty_space_on_bench():
@@ -647,7 +874,7 @@ def get_empty_space_on_bench():
                     list_not_available_slots.append(l)
     for i in range(len(coordinates.bench_champs)):
         if(not i in list_not_available_slots):
-            print("empty slot on bench:" + str(i))
+            print("empty slot:" + str(i))
             return i
 
 def get_team_in_order(lvl):
@@ -945,6 +1172,19 @@ def pve_round(stage):
         # spend money, buying champs, buying xp, sell champs
         test_gold = 10
 
+        # version 1:
+        # i = 1
+        # if(need_to_buy_second_champ):
+        #     i = 2
+        # for l in range(i):
+        #     shop = get_champ_names_shop_smart()
+        #     if(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
+        #         # buy champions that fit in comp
+        #         spend_money(test_gold, 10, shop)
+        #     else:
+        #         # buy one random champion
+        #         keyboardFunctions.buy_champ(i)
+
         # version 2:
         shop = get_champ_names_shop_smart()
         if(need_to_buy_second_champ):
@@ -1050,6 +1290,10 @@ def pve_round(stage):
             print("Error in retrieving gold")
             pass
         
+        # make space on bench for new champs from shop
+        search_for_new_champs_on_bench()
+        sell_champs_on_bench()
+
         # spend money, buying champs, buying xp, sell champs
         shop = get_champ_names_shop_smart()
         spend_money(gold, 10, shop, lvl, missing_xp_to_lvl_up)
@@ -1161,7 +1405,6 @@ def pvp_round():
 
     # show_what_the_programm_thinks_how_board_looks_like()
     # show_what_the_programm_thinks_how_board_looks_like2()
-    
     # change board
     get_team_in_order(lvl)
     add_random_champ_on_board_if_needed(lvl, shop)
@@ -1192,3 +1435,5 @@ def augment_round():
         keyboardFunctions.left_click(coordinates.augment_name_middle_click)
     if(augment_to_choose == 2):
         keyboardFunctions.left_click(coordinates.augment_name_right_click)
+
+#TODO: if lvl 5 and only 4 champs on board, place first champ from bench on board
