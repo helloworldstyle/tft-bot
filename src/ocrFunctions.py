@@ -23,9 +23,9 @@ def take_screenshot():
     screenshot = pyautogui.screenshot()
     screenshot.save("screen2.png")
     if(controlMode.tobi_pc):     
-        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/Documents/Tobias/tft_cheater_current_version/screen2.png')
+        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/git-projects/tft-bot/screen2.png')
     if(controlMode.benni_pc):
-        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/current-tft-bot/screen2.png')
+        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/tft-bot/screen2.png')
     assert os.path.exists(file_name)    
     img = cv.imread(file_name)
     # cv.imshow("thresholding", img)
