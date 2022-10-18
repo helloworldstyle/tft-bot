@@ -21,11 +21,11 @@ if(controlMode.benni_pc):
 
 def take_screenshot():
     screenshot = pyautogui.screenshot()
-    screenshot.save("screen2.png")
+    screenshot.save("pictures/screen2.png")
     if(controlMode.tobi_pc):     
-        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/git-projects/tft-bot/screen2.png')
+        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/git-projects/tft-bot/pictures/screen2.png')
     if(controlMode.benni_pc):
-        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/tft-bot/screen2.png')
+        file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/tft-bot/pictures/screen2.png')
     assert os.path.exists(file_name)    
     img = cv.imread(file_name)
     # cv.imshow("thresholding", img)
@@ -138,9 +138,9 @@ def get_text_from_image(img, scale, width, height):
 # source: https://stackoverflow.com/questions/7853628/how-do-i-find-an-image-contained-within-an-image
 def find_lots_of_orbs(orb_type):
     screenshot = pyautogui.screenshot()
-    screenshot.save('screen.png')
+    screenshot.save('pictures/screen.png')
 
-    screen = cv.imread('screen.png')
+    screen = cv.imread('pictures/screen.png')
     if(orb_type == 'common'):
         template = cv.imread('pictures/commonOrb.png')
     if(orb_type == 'rare'):
@@ -167,8 +167,8 @@ def find_lots_of_orbs(orb_type):
 def find_items_on_champs():
     # find more than one item from same type
     screenshot = pyautogui.screenshot()
-    screenshot.save('screen.png')
-    screenshot = cv.imread('screen.png')
+    screenshot.save('pictures/screen.png')
+    screenshot = cv.imread('pictures/screen.png')
     screen = screenshot[coordinates.crop_image_top_cut:1080, 0:1920]
 
     templates = ['pictures/negatron.png', 'pictures/bow.png', 'pictures/bf.png', 'pictures/chain.png', 'pictures/giants.png', 'pictures/rod.png', 'pictures/tear.png', 'pictures/gloves.png', 'pictures/spatula.png']
@@ -200,9 +200,9 @@ def find_items_on_champs():
 
 def get_item_bench_layout():
     screenshot = pyautogui.screenshot()
-    screenshot.save('screen.png')
+    screenshot.save('pictures/screen.png')
 
-    screen = cv.imread('screen.png')
+    screen = cv.imread('pictures/screen.png')
     template1 = cv.imread('pictures/screen_item_bench1_cropped.png')
     template2 = cv.imread('pictures/screen_item_bench2_cropped.png')
     
@@ -233,9 +233,9 @@ def get_item_bench_layout():
 def set_champ_lvl():
     print("start func")
     screenshot = pyautogui.screenshot()
-    screenshot.save('screen.png')
+    screenshot.save('pictures/screen.png')
 
-    screen = cv.imread('screen.png')
+    screen = cv.imread('pictures/screen.png')
     template1 = cv.imread('pictures/sd.png')
     template2 = cv.imread('pictures/sd2.png')
     template3 = cv.imread('pictures/sd3.png')

@@ -43,8 +43,8 @@ def moveFromSilverToPrismatic():
                     
                     # # get augment name with ocr
                     # # screenshot = ocrFunctions.screenshot()
-                    # # screenshot.save('screen.png')
-                    # # screenshot = cv.imread('screen.png')
+                    # # screenshot.save('pictures/screen.png')
+                    # # screenshot = cv.imread('pictures/screen.png')
                     # coord00 = 385 + iter * lengthTopBottom
                     # coord01 = 419 + iter * lengthTopBottom
                     # coord10 = 465 + i * lengthLeftRight
