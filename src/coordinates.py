@@ -105,12 +105,16 @@ def getAugmentCoords():
 
 # star_lvl
 #TODO: adapt coords
-lux_star_coords = [(1322, 518), (1349, 588)] # with item, second calculated
-skarner_star_coords = [(855, 359), (882, 417)] # with item finished
+lux_star_coords = [(1322, 518), (1353, 600)] # with item, second calculated
+skarner_star_coords = [(855, 359), (887, 422)] # with item finished
 sylas_star_coords = [(1091, 302), (1119, 369)] # with item finished
-varus_star_coords = [(1178, 537), (1205, 607)] # with item, first missing
-nidalee_star_coords = [(525, 567), (552, 613)] # finished
-vladimir_star_coords = [(1226, 452), (1251, 506)] # finished    
+varus_star_coords = [(1046, 530), (1080, 609)] # with item, first missing
+nidalee_star_coords = [(525, 567), (557, 618)] # finished
+vladimir_star_coords = [(1226, 452), (1256, 511)] # finished    
 
 aurelion_star_coords = [(), ()] # with items
 # 4 higher, 2 lower values, vlad and skarner
+
+list[:0] = "se"
+list = list[:0]
+print(list)

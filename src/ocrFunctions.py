@@ -230,8 +230,8 @@ def get_item_bench_layout():
         print("found variant 2")
         return 2
 
-    
 def set_champ_lvl():
+    print("start func")
     screenshot = pyautogui.screenshot()
     screenshot.save('screen.png')
 
@@ -247,6 +247,8 @@ def set_champ_lvl():
         window_coords_min = window_coords[0]
         window_coords_max = window_coords[1]
         screen_window = screen[window_coords_min[1] : window_coords_max[1], window_coords_min[0] : window_coords_max[0]]
+        # cv.imshow("screen_window", screen_window)
+        # cv.waitKey(0)  
         for l in range(3):
             template = templates[l]
             res = cv.matchTemplate(screen_window, template, cv.TM_CCOEFF_NORMED)

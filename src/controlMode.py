@@ -14,7 +14,7 @@ play_ranked_game = False
 
 lux_comp_active = True
 
-tobi_pc = False
-benni_pc = True
+tobi_pc = True
+benni_pc = False
 # if((talon_comp_active and ashe_comp_active) or (not talon_comp_active and not ashe_comp_active)):
 #     print("error: check comp_active Button")

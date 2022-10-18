@@ -136,11 +136,11 @@ def get_text_augment(augment_pos):
     augment_name_list = []
     augment_name_list[:0] = augment_name
 
-    if(augment_name_list[len(augment_name) - 3] == "I" and (augment_name_list[len(augment_name)- 2] == "l" or augment_name_list[len(augment_name)- 1] == "l")):
+    if((augment_name_list[len(augment_name) - 3] == "I" and (augment_name_list[len(augment_name)- 2] == "l" or augment_name_list[len(augment_name)- 1] == "l")) and len(augment_name_list) >= 3):
         augment_name_list[len(augment_name) - 1] = "I"
         augment_name_list[len(augment_name) - 2] = "I"
 
-    elif(augment_name_list[len(augment_name)- 2] == "I" and augment_name_list[len(augment_name) - 1] == "l"):
+    elif(augment_name_list[len(augment_name)- 2] == "I" and augment_name_list[len(augment_name) - 1] == "l" and len(augment_name_list) >= 3):
         augment_name_list[len(augment_name) - 1] = "I"
     augment_name = "".join(augment_name_list)
     
@@ -220,17 +220,12 @@ def spend_money(gold, gold_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up):
             for i in range(len(shop)):
                 if(shop[i] in comps.lux_comp_champs):
                     # check if champ reached his supposed lvl, if not buy champ
-                    # TODO replace this function with smart data structure
-                    star = champions.findHighestLvlOfThisChamp(shop[i])
-                    if(star < comps.lux_comp_stars[shop[i]]):
-                        keyboardFunctions.buy_champ(i)
-                        gold -= comps.lux_comp_cost_dict[shop[i]]
-                    
                     if(not comps.lux_comp_champs_max_star_reached[shop[i]]):
                         keyboardFunctions.buy_champ(i)
-                        gold -= comps.lux_comp_cost_dict[shop[i]]                       
-            # strategy lvl on 5, roll on 6, lvl on 7
-            if(lvl == 4 or lvl == 5 or lvl == 6 and comps.lux_comp_champs_max_star_reached["Lux"] or lvl == 7):
+                        gold -= comps.lux_comp_cost_dict[shop[i]]
+                                     
+            # strategy lvl on 5, roll on 6 until lux 3, lvl on 7
+            if(lvl == 4 or lvl == 5 or (lvl == 6 and comps.lux_comp_champs_max_star_reached["Lux"]) or lvl == 7):
                 while(gold >= 54):
                     # lvl up
                     keyboardFunctions.level_up()
@@ -248,10 +243,8 @@ def spend_money(gold, gold_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up):
     else:
         for i in range(len(shop)):
             if(shop[i] in comps.lux_comp_champs):
-                # check if champ reached his supposed lvl
-                # TODO replace this function with smart data structure
-                star = champions.findHighestLvlOfThisChamp(shop[i])
-                if(star < comps.lux_comp_stars[shop[i]]):
+                # check if champ reached his supposed lvl, if not buy unit
+                if(not comps.lux_comp_champs_max_star_reached[shop[i]]):
                     keyboardFunctions.buy_champ(i)
                     gold -= comps.lux_comp_cost_dict[shop[i]]
     return lvl
@@ -351,6 +344,7 @@ def search_for_new_champs_on_bench_stage_1_2():
     
     # look for champs
     keyboardFunctions.right_click(coordinates.bench_champs[0])
+    keyboardFunctions.halt_movement()
     champ_name = get_champ_name((coordinates.champ_name_bench[0], coordinates.champ_name_bench[1]))
     keyboardFunctions.move_things(coordinates.bench_champs[0], coordinates.champs_on_board[24])
     print(champ_name)
@@ -787,17 +781,16 @@ def game_strategy():
         if(last_stage != current_stage):
             if(get_stage_type_without_screenshot(current_stage) == "first_carousel"):
                 carousel_round_first()
-            if(get_stage_type_without_screenshot(current_stage) == "carousel"):
+            elif(get_stage_type_without_screenshot(current_stage) == "carousel"):
                 carousel_round()
-            if(get_stage_type_without_screenshot(current_stage) == "pve"):
+            elif(get_stage_type_without_screenshot(current_stage) == "pve"):
                 pve_round(current_stage)
-            if(get_stage_type_without_screenshot(current_stage) == "pvp"):
-                pvp_round()
-            if(get_stage_type_without_screenshot(current_stage) == "augment_pvp"):
+            elif(get_stage_type_without_screenshot(current_stage) == "pvp"):
+                pvp_round(current_stage)
+            elif(get_stage_type_without_screenshot(current_stage) == "augment_pvp"):
                 time.sleep(1.5)
                 augment_round()
-                pvp_round()
-
+                pvp_round(current_stage)
         last_stage = current_stage
         time.sleep(1)
     print("leave game")
@@ -945,7 +938,6 @@ def pve_round(stage):
         # spend money, buying champs, buying xp, sell champs
         test_gold = 10
 
-        # version 2:
         shop = get_champ_names_shop_smart()
         if(need_to_buy_second_champ):
             if(len(set(shop).intersection(comps.lux_comp_champs)) > 1):
@@ -1049,6 +1041,12 @@ def pve_round(stage):
         else:
             print("Error in retrieving gold")
             pass
+
+        ocrFunctions.set_champ_lvl()
+
+        # reorganize team for krugs
+        if(stage == "2-7"):
+            reorganize_board_for_krugs()
         
         # spend money, buying champs, buying xp, sell champs
         shop = get_champ_names_shop_smart()
@@ -1064,7 +1062,8 @@ def pve_round(stage):
         search_for_new_champs_on_bench()
 
         # get champs on board in order
-        get_team_in_order(lvl)
+        if(stage != "2-7"):
+            get_team_in_order(lvl)
 
         # put champ on board if one space open
         give_special_champs_right_pos(lvl)
@@ -1097,7 +1096,7 @@ def pve_round(stage):
                 keyboardFunctions.left_click(items.current_items[0].coords)
     
 
-def pvp_round():
+def pvp_round(stage):
 
     # look for loot bags
     pick_up_orbs()
@@ -1149,6 +1148,9 @@ def pvp_round():
 
     ocrFunctions.set_champ_lvl()
 
+    # restore order on board after krugs
+    if(stage == "3-1"):
+        restore_order_after_krugs()
     # spend money, buying champs, buying xp, sell champs
     shop = get_champ_names_shop_smart()
     lvl = spend_money(gold, money_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up)
@@ -1174,7 +1176,37 @@ def pvp_round():
     # if(found_items):
     #     equip_items()
 
-
+# func not used yet, don't know when to use it in pvp_strategy
+def check_unit_from_carousel():
+    index = get_empty_space_on_bench()
+    list = champions.getInfoCarouselChamp(coordinates.bench_champs[index])
+    if(list == "error"):
+        print("error")
+    else:
+        name = list[0]
+        uncompleted_item = list[1]
+        completed_item = list[2]
+        print(name + uncompleted_item + completed_item)
+        item_parts_list = []
+        if(name in comps.champs_with_items):
+            # iterate throug all item wearing champs
+            for i in range(len(comps.item_lists)):
+                items = comps.item_lists[i]
+                items_bool = comps.equipped_items_boolean_lists[i]
+                # iterate throug all chosen items for that champ
+                for l in range(len(items)):
+                    # if item is not equipped yet, item parts are still needed on that champ
+                    if(not items_bool[l]):
+                        current_item = items[l]
+                        item_parts = generalData.dict_full_items_craftable[current_item]
+                        item_parts_list.append(item_parts[0])
+                        item_parts_list.append(item_parts[1])
+                if(uncompleted_item in item_parts_list or completed_item in items):
+                    pass
+                else:
+                    # sell unit
+                    keyboardFunctions.sell_champ(coordinates.bench_champs[index])
+                    champions.delChamp(coordinates.bench_champs[index])
 
 def augment_round():
     augment1 = get_text_augment(0)
@@ -1192,3 +1224,19 @@ def augment_round():
         keyboardFunctions.left_click(coordinates.augment_name_middle_click)
     if(augment_to_choose == 2):
         keyboardFunctions.left_click(coordinates.augment_name_right_click)
+
+def reorganize_board_for_krugs():
+    board_indexes_for_krugs = [12, 6, 19, 26, 18, 13]
+    currently_used_indexes_sorted = champions.sortChampOnBoard()
+    for i in range(len(currently_used_indexes_sorted)):
+        keyboardFunctions.move_things(coordinates.champs_on_board[currently_used_indexes_sorted[i]], coordinates.champs_on_board[board_indexes_for_krugs[i]])
+        champions.changePosChamp(coordinates.champs_on_board[currently_used_indexes_sorted[i]], coordinates.champs_on_board[board_indexes_for_krugs[i]])
+    champions.indexes_used = currently_used_indexes_sorted
+
+def restore_order_after_krugs():
+    currently_used_indexes_sorted = champions.indexes_used
+    board_indexes_for_krugs = [12, 6, 19, 26, 18, 13]
+    for i in range(len(currently_used_indexes_sorted)):
+        keyboardFunctions.move_things(coordinates.champs_on_board[board_indexes_for_krugs[i]], coordinates.champs_on_board[currently_used_indexes_sorted[i]])
+        champions.changePosChamp(coordinates.champs_on_board[board_indexes_for_krugs[i]], coordinates.champs_on_board[currently_used_indexes_sorted[i]])
+    champions.indexes_used = []
