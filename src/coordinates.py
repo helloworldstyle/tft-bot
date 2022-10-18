@@ -114,7 +114,3 @@ vladimir_star_coords = [(1226, 452), (1256, 511)] # finished
 
 aurelion_star_coords = [(), ()] # with items
 # 4 higher, 2 lower values, vlad and skarner
-
-list[:0] = "se"
-list = list[:0]
-print(list)
