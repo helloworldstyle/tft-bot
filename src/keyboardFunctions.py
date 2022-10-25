@@ -81,6 +81,9 @@ def move_things(from_where_coord, to_there_coord):
     move_mouse_to(to_there_coord)
     pydirectinput.mouseUp()
 
+# TODO: try to press f instead
+def take_treasure():
+    left_click(coordinates.take_treasure_button)
 
 # TODO: create find_match version for special event with tft_button_tuple and do settings to switch between mode
 def find_match():

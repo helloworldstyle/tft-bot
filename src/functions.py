@@ -118,6 +118,8 @@ def get_stage_type_without_screenshot(stage) -> str:
         return "first_carousel"
     if(generalData.augment_pvp_round.__contains__(stage)):
         return "augment_pvp"
+    if(generalData.treasure_dragon_round.__contains__(stage)):
+        return "treasure_dragon"
 
 
 def get_text_you_finished() -> str:
@@ -767,7 +769,52 @@ def show_what_the_programm_thinks_how_board_looks_like2():
                 bench.append((champions.current_champions[i].name))
     print(board)
     print(bench)
+time.sleep(4)
+# choice based only on items (parts) so far
+def get_relevant_options_treasure_dragon(options_names):
+    relevant_options_for_strategy = []
+    for i in range(len(options_names)):        
+        # categorize treasure options     
+        if(options_names[i] in generalData.items or options_names[i] in generalData.item_parts or options_names[i] in generalData.consumables):
+            print("item or consumable")
+            print(options_names[i])
+            relevant_options_for_strategy.append(options_names[i])
 
+        if("Gold" in options_names[i]):
+            options_names[i] = options_names[i].replace('Gold', '')
+            gold_amount = int(options_names[i])
+            print("Gold: " + str(gold_amount))
+
+        if("gold" in options_names[i]):
+            options_names[i] = options_names[i].replace('gold', '')
+            gold_amount = int(options_names[i])
+            print("gold: " + str(gold_amount))
+
+        elif(options_names[i] == ""):
+            print("error")
+
+        # else:
+        #     most_similair_name = get_champ_with_longest_same_substring(find_champ_with_longest_same_substring(name))
+        #     names.append(most_similair_name)
+
+    return relevant_options_for_strategy
+
+def decide_to_take_dragons_treasure(relevant_options):
+    return True
+
+def treasure_dragon_round():
+    # set timer for 30 sec or so and make it condition for loop
+    while():
+        names = ocrFunctions.get_treasure_dragon_options_ImageGrab(4)
+        relevant_options = get_relevant_options_treasure_dragon(names)
+        take_all = decide_to_take_dragons_treasure(relevant_options)
+        if(take_all):
+            keyboardFunctions.take_treasure()
+            break
+        else:
+            keyboardFunctions.reroll()
+
+treasure_dragon_round()
 # main function while game is running, calls functions for different stage types
 def game_strategy():
     last_stage = "1-0"
@@ -796,6 +843,8 @@ def game_strategy():
                 time.sleep(1.5)
                 augment_round()
                 pvp_round(current_stage)
+            elif(get_stage_type_without_screenshot(current_stage) == "treasure_dragon"):
+                treasure_dragon_round()
         last_stage = current_stage
         time.sleep(1)
     print("leave game")

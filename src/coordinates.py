@@ -87,6 +87,7 @@ first_item_name_on_bench_champ = []
 # print(first_item_name_on_bench_champ)
 first_item_name_on_bench_champ = [(670, 816), (910, 849), (788, 816), (1028, 849), (906, 816), (1146, 849), (1024, 816), (1264, 849), (1142, 816), (1382, 849), (1260, 816), (1500, 849), (1378, 816), (1618, 849), (1496, 816), (1736, 849), (1614, 816), (1854, 849)]
 champ_names_shop = [(483, 1043), (598, 1065), (686, 1045), (802, 1066), (886, 1044), (1001, 1066),(1089, 1043), (1193, 1067), (1290, 1043), (1407, 1067)]
+option_names_treasure_dragon = [(403, 1008), (519, 1055), (548, 1008), (679, 1055), (702, 1008), (824, 1055), (851, 1008), (964, 1055), (997, 1008), (1117, 1055)]
 
 current_gold = [(870, 880), (920, 910)]
 current_lvl= [(313, 882), (346, 910)]
@@ -102,6 +103,7 @@ button_for_hp = (1891, 126)
 def getAugmentCoords():
     return [augment_name_left, augment_name_middle, augment_name_right]
 
+take_treasure_button = (1357, 941)
 
 # star_lvl
 #TODO: adapt coords

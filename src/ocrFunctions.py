@@ -1,5 +1,8 @@
 from calendar import c
 from re import X
+from tkinter import Image
+
+from cv2 import resize
 import coordinates
 import champions
 import comps
@@ -28,8 +31,8 @@ def take_screenshot():
         file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/tft-bot/pictures/screen2.png')
     assert os.path.exists(file_name)    
     img = cv.imread(file_name)
-    # cv.imshow("thresholding", img)
-    # cv.waitKey(0)
+    cv.imshow("thresholding", img)
+    cv.waitKey(0)
     return img
 
 time.sleep(1)
@@ -99,15 +102,48 @@ def change_coords_ImageGrab(coords):
     newCoords = (coord1[0], coord1[1], coord2[0], coord2[1])
     return newCoords
 
+def get_treasure_dragon_options_ImageGrab(scale):
+    names = []
+    for i in range(0, 9, 2):
+        coordsdiffFormat = change_coords_ImageGrab((coordinates.option_names_treasure_dragon[i], coordinates.option_names_treasure_dragon[i + 1]))
+        screenshot = ImageGrab.grab(coordsdiffFormat)
+        resize = image_resize(scale, screenshot)
+        array = image_array(resize)
+        grayscale = image_grayscale(array)
+        thresholding = image_thresholding(grayscale)
+        # cv.imshow("thresholding", thresholding)
+        # cv.waitKey(0)
+        name = pytesseract.image_to_string(thresholding, config='--psm 6 -c tessedit_char_whitelist=').strip()
+        print(name)
+
+        # filter unwanted characters such as space and line breaks
+        print(name)
+        if(" " in name):
+            name = name.replace(' ', '')
+            print("replaced space")
+
+        if("\n" in name):
+            name = name.replace('\n', '')
+            print("replaced line break")
+
+        if("'" in name):
+            name = name.replace("'", "")
+            print("replaced '")
+
+        names.append(name)
+    return names
+
 def get_text_ImageGrab(coords, scale, psm_num, whitelist) -> str:
     coordsdiffFormat = change_coords_ImageGrab(coords)
     screenshot = ImageGrab.grab(coordsdiffFormat)
+    # cv.imshow("s", screenshot)
+    # cv.waitKey(0)
     resize = image_resize(scale, screenshot)
     array = image_array(resize)
     grayscale = image_grayscale(array)
     thresholding = image_thresholding(grayscale)
-    # cv.imshow("thresholding", thresholding)
-    # cv.waitKey(0)
+    cv.imshow("thresholding", thresholding)
+    cv.waitKey(0)
     return pytesseract.image_to_string(thresholding, config='--psm ' + psm_num + ' -c tessedit_char_whitelist=' + whitelist).strip()
 
 def get_text_ImageGrab_champ_names(coords, scale):
@@ -117,21 +153,25 @@ def get_text_ImageGrab_champ_names(coords, scale):
     array = image_array(resize)
     grayscale = image_grayscale(array)
     thresholding = image_thresholding_champ_name(grayscale)
-    # cv.imshow("thresholding", thresholding)
-    # cv.waitKey(0)
+    cv.imshow("thresholding", thresholding)
+    cv.waitKey(0)
     return pytesseract.image_to_string(thresholding, config='--psm 8 -c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.').strip()
 
 def image_resize2(scale, img, width, height):
     (width, height) = (width * scale, height * scale)
+    print(width)
+    print(height)
     return img.resize((width, height))
 
 def get_text_from_image(img, scale, width, height):
-    #resize = image_resize2(scale, img, width, height)
+    resized_image = resize("pictures/screen2.png", 3)
+    cv.imshow("thresholding", resized_image)
+    cv.waitKey(0)
     array = image_array(img)
     grayscale = image_grayscale(array)
     thresholding = image_thresholding_champ_name(grayscale)
-    # cv.imshow("thresholding", thresholding)
-    # cv.waitKey(0)
+    cv.imshow("thresholding", thresholding)
+    cv.waitKey(0)
     return pytesseract.image_to_string(thresholding, config='--psm 8 -c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.').strip()
 
 # functions using templates

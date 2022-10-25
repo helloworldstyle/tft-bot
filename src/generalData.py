@@ -7,14 +7,14 @@ rounds = {"1-1", "1-2", "1-3", "1-4",
             "5-1", "5-2", "5-3", "5-4", "5-5", "5-6", "5-7",
             "6-1", "6-2", "6-3", "6-4", "6-5", "6-6", "6-7",
             "7-1", "7-2", "7-3", "7-4", "7-5", "7-6", "7-7"}
-
+     
 carousel_round = {"2-4", "3-4", "4-4", "5-4", "6-4", "7-4"}
 
 carousel_round_first = {"1-1"}
 
-pve_round = {"1-2", "1-3", "1-4", "2-7", "3-7", "4-7", "5-7", "6-7", "7-7"}
+pve_round = {"1-2", "1-3", "1-4", "2-7", "3-7", "5-7", "6-7", "7-7"}
 
-treasure_dragon = {"4-7"}
+treasure_dragon_round = {"4-7"}
 
 pvp_round = {"2-2", "2-3", "2-5", "2-6",
             "3-1", "3-3", "3-5", "3-6",
@@ -42,7 +42,7 @@ items = {"GuinsoosRageblade", "InfinityEdge", "SunfireCape", "Bloodthirster", "G
 "DvarapalaStoneplate", "CovalentSpark", "ChaliceofCharity", "ZzRotsInvitation", "RunaansTempest", "DragonsWill", "EternalWhisper", 
 "SunlightCape", "CrownOfChampions", "RosethornVest", "LuminousDeathblade", "BansheesSilence", "StatikksFavor", "Quickestsilver", 
 "Absolution", "Mistral", "RapidLightcannon", "ShroudofReverence", "LocketofTargonPrime", "DarkflightEssence"}
-
+   
 items_list = ["GuinsoosRageblade", "InfinityEdge", "SunfireCape", "Bloodthirster", "GiantSlayer", "GargoyleStoneplate", "JeweledGauntlet", 
 "ProtectorsVow", "ArchangelsStaff", "Morellonomicon", "HandOfJustice", "TitansResolve", "SpearofShojin", "WarmogsArmor", 
 "ThiefsGloves", "BlueBuff", "ZekesHerald", "LastWhisper", "ZzRotPortal", "EdgeofNight", "IonicSpark", 
@@ -136,6 +136,7 @@ champions_failed = {}
 champion_data = {}
 
 #augments
+#TODO: some augment names might be flawed
 augments = {"PortableForge", "CelestialBlessingII", "MageCrown", "UrfsGrabBagI", "ThrilloftheHuntII", "MageCrest", "JeweledLotus", 
 "BetterTogether", "ComponentGrabBag", "GuildCrest", "GuildCrown", "BlueBatteryI", "CyberneticUplinkII", "SecondWindII", 
 "Ascension", "CelestialBlessingI", "MageHeart", "BandofThievesI", "LudensEchoI", "ThrilloftheHuntI", "StandUnitedII", 
@@ -169,5 +170,7 @@ augments = {"PortableForge", "CelestialBlessingII", "MageCrown", "UrfsGrabBagI",
 "SoulSiphon", "Knife's Edge I", "AFK", "LivingForge", "Part-TimeAssassin", "PreparationI", "PreparationIII", "Dragonmancer Conference",
 "Loot Master", "Personal Training", "Preparation II", "The Golden Egg"}
 
+#consumables
+consumables = {"LoadedDice", "MagneticRemover", "NeekosHelp", "Reforger", "TargetDummy", "TomeofTraits"}
 # lvl_progress
 level_progress = [2, 6, 10, 20, 36, 56, 80, 100]
