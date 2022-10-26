@@ -137,14 +137,14 @@ def get_text_augment(augment_pos):
     # augment name correction
     augment_name_list = []
     augment_name_list[:0] = augment_name
+    if(len(augment_name_list) >= 3):
+        if((augment_name_list[len(augment_name) - 3] == "I" and (augment_name_list[len(augment_name)- 2] == "l" or augment_name_list[len(augment_name)- 1] == "l"))):
+            augment_name_list[len(augment_name) - 1] = "I"
+            augment_name_list[len(augment_name) - 2] = "I"
 
-    if((augment_name_list[len(augment_name) - 3] == "I" and (augment_name_list[len(augment_name)- 2] == "l" or augment_name_list[len(augment_name)- 1] == "l")) and len(augment_name_list) >= 3):
-        augment_name_list[len(augment_name) - 1] = "I"
-        augment_name_list[len(augment_name) - 2] = "I"
-
-    elif(augment_name_list[len(augment_name)- 2] == "I" and augment_name_list[len(augment_name) - 1] == "l" and len(augment_name_list) >= 3):
-        augment_name_list[len(augment_name) - 1] = "I"
-    augment_name = "".join(augment_name_list)
+        elif(augment_name_list[len(augment_name)- 2] == "I" and augment_name_list[len(augment_name) - 1] == "l" and len(augment_name_list) >= 3):
+            augment_name_list[len(augment_name) - 1] = "I"
+        augment_name = "".join(augment_name_list)
     
     if(generalData.augments.__contains__(augment_name)):
         return augment_name
@@ -280,7 +280,6 @@ def get_champ_names_shop_smart():
         bottom_right = coordinates.champ_names_shop[i + 1]
         current_focus = image_bench[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
         name = ocrFunctions.get_text_from_image(current_focus, 3, bottom_right[1] - top_left[1], bottom_right[0] - top_left[0])
-        #print(name)
         
         if(generalData.champions.__contains__(name)):
             names.append(name)
@@ -804,17 +803,22 @@ def decide_to_take_dragons_treasure(relevant_options):
 
 def treasure_dragon_round():
     # set timer for 30 sec or so and make it condition for loop
-    while():
+    took_treasure = False
+    time_spent = 0
+    start = time.time()
+    while(time.time() - start < 30):
         names = ocrFunctions.get_treasure_dragon_options_ImageGrab(4)
         relevant_options = get_relevant_options_treasure_dragon(names)
         take_all = decide_to_take_dragons_treasure(relevant_options)
         if(take_all):
             keyboardFunctions.take_treasure()
+            took_treasure = True
             break
         else:
             keyboardFunctions.reroll()
+    if(not took_treasure):
+        keyboardFunctions.take_treasure()
 
-treasure_dragon_round()
 # main function while game is running, calls functions for different stage types
 def game_strategy():
     last_stage = "1-0"

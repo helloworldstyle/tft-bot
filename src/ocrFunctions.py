@@ -24,15 +24,15 @@ if(controlMode.benni_pc):
 
 def take_screenshot():
     screenshot = pyautogui.screenshot()
-    screenshot.save("pictures/screen2.png")
+    screenshot.save('pictures/screen2.png')
     if(controlMode.tobi_pc):     
         file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/tobia/git-projects/tft-bot/pictures/screen2.png')
     if(controlMode.benni_pc):
         file_name = os.path.join(os.path.dirname(__file__), 'C:/Users/Bennitim/tft-bot/pictures/screen2.png')
     assert os.path.exists(file_name)    
     img = cv.imread(file_name)
-    cv.imshow("thresholding", img)
-    cv.waitKey(0)
+    # cv.imshow("thresholding", img)
+    # cv.waitKey(0)
     return img
 
 time.sleep(1)
@@ -142,8 +142,8 @@ def get_text_ImageGrab(coords, scale, psm_num, whitelist) -> str:
     array = image_array(resize)
     grayscale = image_grayscale(array)
     thresholding = image_thresholding(grayscale)
-    cv.imshow("thresholding", thresholding)
-    cv.waitKey(0)
+    # cv.imshow("thresholding", thresholding)
+    # cv.waitKey(0)
     return pytesseract.image_to_string(thresholding, config='--psm ' + psm_num + ' -c tessedit_char_whitelist=' + whitelist).strip()
 
 def get_text_ImageGrab_champ_names(coords, scale):
@@ -153,8 +153,8 @@ def get_text_ImageGrab_champ_names(coords, scale):
     array = image_array(resize)
     grayscale = image_grayscale(array)
     thresholding = image_thresholding_champ_name(grayscale)
-    cv.imshow("thresholding", thresholding)
-    cv.waitKey(0)
+    # cv.imshow("thresholding", thresholding)
+    # cv.waitKey(0)
     return pytesseract.image_to_string(thresholding, config='--psm 8 -c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.').strip()
 
 def image_resize2(scale, img, width, height):
@@ -164,14 +164,11 @@ def image_resize2(scale, img, width, height):
     return img.resize((width, height))
 
 def get_text_from_image(img, scale, width, height):
-    resized_image = resize("pictures/screen2.png", 3)
-    cv.imshow("thresholding", resized_image)
-    cv.waitKey(0)
     array = image_array(img)
     grayscale = image_grayscale(array)
     thresholding = image_thresholding_champ_name(grayscale)
-    cv.imshow("thresholding", thresholding)
-    cv.waitKey(0)
+    # cv.imshow("thresholding", thresholding)
+    # cv.waitKey(0)
     return pytesseract.image_to_string(thresholding, config='--psm 8 -c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.').strip()
 
 # functions using templates

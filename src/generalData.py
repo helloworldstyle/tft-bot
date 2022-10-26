@@ -60,6 +60,45 @@ items_list = ["GuinsoosRageblade", "InfinityEdge", "SunfireCape", "Bloodthirster
 "SunlightCape", "CrownOfChampions", "RosethornVest", "LuminousDeathblade", "BansheesSilence", "StatikksFavor", "Quickestsilver", 
 "Absolution", "Mistral", "RapidLightcannon", "ShroudofReverence", "LocketofTargonPrime", "DarkflightEssence"]
 
+op_items_dict = {
+    "ArchangelsStaff" : "Urf-AngelsStaff",
+    "Bloodthirster" : "BlessedBloodthirster",
+    "BlueBuff" : "BlueBlessing",
+    "BrambleVest" : "RosethornVest",
+    "ChaliceofPower" : "ChaliceofCharity",
+    "Deathblade" : "LuminousDeathblade",
+    "DragonsClaw" : "DragonsWill",
+    "ProtectorsVow" : "BulwarksOath",
+    "GargoyleStoneplate" : "DvarapalaStoneplate",
+    "Giantslayer" : "DemonSlayer",
+    "EdgeofNight" : "BrinkofDawn",
+    "GuinsoosRageblade" : "GuinsoosReckoning",
+    "HandOfJustice" : "FistofFairness",
+    "HextechGunblade" : "HextechLifeblade",
+    "InfinityEdge" : "ZenithEdge",
+    "IonicSpark" : "CovalentSpark",
+    "JeweledGauntlet" : "GlamorousGauntlet",
+    "LastWhisper" : "EternalWhisper",
+    "LocketoftheIronSolari" : "LocketofTargonPrime",
+    "Morellonomicon" : "MoreMore-ellonomicon",
+    "Quicksilver" : "Quickestsilver",
+    "RabadonsDeathcap" : "RabadonsAscendedDeathcap",
+    "RapidFirecannon" : "RapidLightcannon",
+    "Redemption" : "Absolution",
+    "RunaansHurricane" : "RunaansTempest",
+    "ShroudofStillness" : "ShroudofReverence",
+    "SpearofShojin" : "SpearofHirana",
+    "StatikkShiv" : "StatikksFavor",
+    "SunfireCape" : "SunlightCape",
+    "ThiefsGloves" : "RascalsGloves",
+    "TitansResolve" : "TitansVow",
+    "BansheesClaw" : "BansheesSilence",
+    "WarmogsArmor" : "WarmogsPride",
+    "ZekesHerald" : "vZekesHarmony",
+    "Zephyr" : "Mistral",
+    "ZzRotPortal" : "ZzRotsInvitation"
+}
+
 item_parts = {"NeedlesslyLargeRod", "TearoftheGoddess", "SparringGloves", "Spatula", "GiantsBelt", "NegatronCloak", "ChainVest", "BFSword", "RecurveBow"}
 
 item_parts_list = ["NeedlesslyLargeRod", "TearoftheGoddess", "SparringGloves", "Spatula", "GiantsBelt", "NegatronCloak", "ChainVest", "BFSword", "RecurveBow"]

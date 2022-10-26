@@ -104,6 +104,8 @@ def getAugmentCoords():
     return [augment_name_left, augment_name_middle, augment_name_right]
 
 take_treasure_button = (1357, 941)
+# loot in the middle of the board
+treasure_loot = (950, 412)
 
 # star_lvl
 #TODO: adapt coords
