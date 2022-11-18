@@ -2,7 +2,7 @@ from decimal import ROUND_UP
 from email.errors import MissingHeaderBodySeparatorDefect
 from tokenize import cookie_re
 from cv2 import CAP_PROP_OPENNI_MAX_TIME_DURATION, COLORMAP_SPRING, fastNlMeansDenoising, repeat
-from numpy import append
+from numpy import True_, append
 
 import pydirectinput
 from pyparsing import java_style_comment
@@ -118,6 +118,8 @@ def get_stage_type_without_screenshot(stage) -> str:
         return "first_carousel"
     if(generalData.augment_pvp_round.__contains__(stage)):
         return "augment_pvp"
+    if(generalData.treasure_dragon_round.__contains__(stage)):
+        return "treasure_dragon"
 
 
 def get_text_you_finished() -> str:
@@ -135,14 +137,14 @@ def get_text_augment(augment_pos):
     # augment name correction
     augment_name_list = []
     augment_name_list[:0] = augment_name
+    if(len(augment_name_list) >= 3):
+        if((augment_name_list[len(augment_name) - 3] == "I" and (augment_name_list[len(augment_name)- 2] == "l" or augment_name_list[len(augment_name)- 1] == "l"))):
+            augment_name_list[len(augment_name) - 1] = "I"
+            augment_name_list[len(augment_name) - 2] = "I"
 
-    if(augment_name_list[len(augment_name) - 3] == "I" and (augment_name_list[len(augment_name)- 2] == "l" or augment_name_list[len(augment_name)- 1] == "l")):
-        augment_name_list[len(augment_name) - 1] = "I"
-        augment_name_list[len(augment_name) - 2] = "I"
-
-    elif(augment_name_list[len(augment_name)- 2] == "I" and augment_name_list[len(augment_name) - 1] == "l"):
-        augment_name_list[len(augment_name) - 1] = "I"
-    augment_name = "".join(augment_name_list)
+        elif(augment_name_list[len(augment_name)- 2] == "I" and augment_name_list[len(augment_name) - 1] == "l" and len(augment_name_list) >= 3):
+            augment_name_list[len(augment_name) - 1] = "I"
+        augment_name = "".join(augment_name_list)
     
     if(generalData.augments.__contains__(augment_name)):
         return augment_name
@@ -157,8 +159,12 @@ def get_champ_name(coords):
         return "-"
     if(champ_name == "Parie"):
         return "Taric"
+    if(champ_name == "Lx"):
+        return "Lux"
     if(generalData.champions.__contains__(champ_name)):
         return champ_name
+    if(len(champ_name) <= 2):
+        return "-"
     else:
         return get_champ_with_longest_same_substring(find_champ_with_longest_same_substring(champ_name))
 
@@ -203,7 +209,7 @@ def find_best_augment(augment1, augment2, augment3) -> int:
         if min_value == value:
             return pos_min_value
         pos_min_value += 1
-
+# not in use yet, might be useful for spend_money func
 def calculate_money_to_lvl_up(lvl_progress_list):
     xp_needed = lvl_progress_list[1] - lvl_progress_list[0]
     #TODO: adapt variables for augments
@@ -211,8 +217,8 @@ def calculate_money_to_lvl_up(lvl_progress_list):
     cost_per_buy = 4
     number_buys_needed = int(xp_needed/xp_per_buy) + (xp_needed % xp_per_buy > 0)
     return number_buys_needed * cost_per_buy
-
-def spend_money(gold, gold_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up):
+# TODO: add parameter gold_needed_to_lvl_up and adapt strategy when to lvl up
+def spend_money(gold, shop, lvl, missing_xp_to_lvl_up):
     added_xp = 0
     # buy champs
     if(gold >= 50):
@@ -220,17 +226,12 @@ def spend_money(gold, gold_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up):
             for i in range(len(shop)):
                 if(shop[i] in comps.lux_comp_champs):
                     # check if champ reached his supposed lvl, if not buy champ
-                    # TODO replace this function with smart data structure
-                    star = champions.findHighestLvlOfThisChamp(shop[i])
-                    if(star < comps.lux_comp_stars[shop[i]]):
-                        keyboardFunctions.buy_champ(i)
-                        gold -= comps.lux_comp_cost_dict[shop[i]]
-                    
                     if(not comps.lux_comp_champs_max_star_reached[shop[i]]):
                         keyboardFunctions.buy_champ(i)
-                        gold -= comps.lux_comp_cost_dict[shop[i]]                       
-            # strategy lvl on 5, roll on 6, lvl on 7
-            if(lvl == 4 or lvl == 5 or lvl == 6 and comps.lux_comp_champs_max_star_reached["Lux"] or lvl == 7):
+                        gold -= comps.lux_comp_cost_dict[shop[i]]
+                                     
+            # strategy lvl on 5, roll on 6 until lux 3, lvl on 7
+            if(lvl == 4 or lvl == 5 or (lvl == 6 and comps.lux_comp_champs_max_star_reached["Lux"]) or lvl == 7):
                 while(gold >= 54):
                     # lvl up
                     keyboardFunctions.level_up()
@@ -248,10 +249,8 @@ def spend_money(gold, gold_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up):
     else:
         for i in range(len(shop)):
             if(shop[i] in comps.lux_comp_champs):
-                # check if champ reached his supposed lvl
-                # TODO replace this function with smart data structure
-                star = champions.findHighestLvlOfThisChamp(shop[i])
-                if(star < comps.lux_comp_stars[shop[i]]):
+                # check if champ reached his supposed lvl, if not buy unit
+                if(not comps.lux_comp_champs_max_star_reached[shop[i]]):
                     keyboardFunctions.buy_champ(i)
                     gold -= comps.lux_comp_cost_dict[shop[i]]
     return lvl
@@ -281,7 +280,6 @@ def get_champ_names_shop_smart():
         bottom_right = coordinates.champ_names_shop[i + 1]
         current_focus = image_bench[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
         name = ocrFunctions.get_text_from_image(current_focus, 3, bottom_right[1] - top_left[1], bottom_right[0] - top_left[0])
-        #print(name)
         
         if(generalData.champions.__contains__(name)):
             names.append(name)
@@ -351,6 +349,7 @@ def search_for_new_champs_on_bench_stage_1_2():
     
     # look for champs
     keyboardFunctions.right_click(coordinates.bench_champs[0])
+    keyboardFunctions.halt_movement()
     champ_name = get_champ_name((coordinates.champ_name_bench[0], coordinates.champ_name_bench[1]))
     keyboardFunctions.move_things(coordinates.bench_champs[0], coordinates.champs_on_board[24])
     print(champ_name)
@@ -364,6 +363,7 @@ def search_for_new_champs_on_bench_stage_1_2():
             finalCompBool = True
         champions.addChamp(champ_name, coordinates.bench_champs[0], 1, result_item[1], [], 0, finalCompBool, False)
         champions.changePosChamp(coordinates.bench_champs[0], coordinates.champs_on_board[24])
+        champions.changeOnBoardBool(coordinates.champs_on_board[24], True)
     # print("champs on board:")
     # for i in range(len(champions.current_champions)):
     #     if(champions.current_champions[i].onBoardBool):
@@ -632,7 +632,8 @@ def get_empty_space_on_board():
     list_not_available_slots = []
     for i in range(len(champions.current_champions)):
         if(champions.current_champions[i].onBoardBool):
-            list_not_available_slots.append(champions.getChampionIndex(champions.current_champions[i].coords))
+            list_not_available_slots.append(champions.getChampionSlot(champions.current_champions[i].coords, champions.current_champions[i].onBoardBool))
+    print(list_not_available_slots)
     for i in range(len(coordinates.champs_on_board)):
         if(not i in list_not_available_slots and not i in comps.lux_comp_placement_on_board_list):
             print("empty slot on board:" + str(i))
@@ -642,9 +643,7 @@ def get_empty_space_on_bench():
     list_not_available_slots = []
     for i in range(len(champions.current_champions)):
         if(not champions.current_champions[i].onBoardBool):
-            for l in range(len(coordinates.bench_champs)):
-                if(coordinates.bench_champs[l] == champions.current_champions[i].coords):
-                    list_not_available_slots.append(l)
+            list_not_available_slots.append(champions.getChampionSlot(champions.current_champions[i].coords, champions.current_champions[i].onBoardBool))
     for i in range(len(coordinates.bench_champs)):
         if(not i in list_not_available_slots):
             print("empty slot on bench:" + str(i))
@@ -667,12 +666,13 @@ def get_team_in_order(lvl):
                 print(place_champ_here_index)
                 keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[place_champ_here_index])
                 champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[place_champ_here_index])
+                champions.changeOnBoardBool(coordinates.champs_on_board[place_champ_here_index], True)
                 comps.lux_comp_champs_on_board[champions.current_champions[i].name] = True
             else:
                 print("ssss")
                 return True
         elif(champions.current_champions[i].name in comps.lux_comp_champs and champions.current_champions[i].onBoardBool and champions.current_champions[i].coords == coordinates.champs_on_board[comps.lux_comp_placement_on_board[champions.current_champions[i].name]]):
-            print("s")
+            print("comp champ already on place on board")
             pass
         # if champ is part of comp and on board but not on his allocated position, therefore place champ on bench
         elif(champions.current_champions[i].name in comps.lux_comp_champs and champions.current_champions[i].onBoardBool and not champions.current_champions[i].coords == coordinates.champs_on_board[comps.lux_comp_placement_on_board[champions.current_champions[i].name]]):
@@ -681,6 +681,7 @@ def get_team_in_order(lvl):
             empty_space_on_bench = get_empty_space_on_bench()
             keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.bench_champs[empty_space_on_bench])
             champions.changePosChamp(champions.current_champions[i].coords, coordinates.bench_champs[empty_space_on_bench])
+            champions.changeOnBoardBool(coordinates.bench_champs[empty_space_on_bench], False)
         # don't sell comp champs 
         elif(champions.current_champions[i].name in comps.lux_comp_champs):
             print("ss")
@@ -707,13 +708,16 @@ def add_random_champ_on_board_if_needed(lvl, shop):
     how_many_random_champs_need_to_be_placed_on_board = lvl - get_how_many_unique_wanted_champs_registered()
     print(how_many_random_champs_need_to_be_placed_on_board)
     bench_empty = False
+    # units from bench
     while(how_many_random_champs_need_to_be_placed_on_board > 0 and not bench_empty):
         # get random champ on board, either from bench
         for i in range(len(champions.current_champions)):
             if(not champions.current_champions[i].onBoardBool and not champions.current_champions[i].name in comps.lux_comp_champs):
                 print("from bench")
-                keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[i])
-                champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[i])
+                empty_space_on_board = get_empty_space_on_board()
+                keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[empty_space_on_board])
+                champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[empty_space_on_board])
+                champions.changeOnBoardBool(coordinates.champs_on_board[empty_space_on_board], True)
                 how_many_random_champs_need_to_be_placed_on_board -= 1
                 continue
         bench_empty = True
@@ -743,6 +747,14 @@ def add_random_champ_on_board_if_needed(lvl, shop):
                 del shop_useable_indizes[0]
                 print("from shop")
 
+# comps.lux_comp_champs_on_board["Lux"] = True
+# champions.addChamp("Lux", coordinates.champs_on_board[1], 1, [], [], 1, True, True)
+# champions.addChamp("Lux", coordinates.bench_champs[7], 1, [], [], 7, True, False)
+
+# champions.addChamp("Ezreal", coordinates.bench_champs[1], 1, [], [], 1, False, False)
+# champions.addChamp("Ezreal", coordinates.bench_champs[4], 1, [], [], 4, False, False)
+# add_random_champ_on_board_if_needed(3, [])
+
 def show_what_the_programm_thinks_how_board_looks_like():
     board = []
     bench = []
@@ -768,6 +780,55 @@ def show_what_the_programm_thinks_how_board_looks_like2():
                 bench.append((champions.current_champions[i].name))
     print(board)
     print(bench)
+# choice based only on items (parts) so far
+def get_relevant_options_treasure_dragon(options_names):
+    relevant_options_for_strategy = []
+    for i in range(len(options_names)):        
+        # categorize treasure options     
+        if(options_names[i] in generalData.items or options_names[i] in generalData.item_parts or options_names[i] in generalData.consumables):
+            print("item or consumable")
+            print(options_names[i])
+            relevant_options_for_strategy.append(options_names[i])
+
+        if("Gold" in options_names[i]):
+            options_names[i] = options_names[i].replace('Gold', '')
+            gold_amount = int(options_names[i])
+            print("Gold: " + str(gold_amount))
+
+        if("gold" in options_names[i]):
+            options_names[i] = options_names[i].replace('gold', '')
+            gold_amount = int(options_names[i])
+            print("gold: " + str(gold_amount))
+
+        elif(options_names[i] == ""):
+            print("error")
+
+        # else:
+        #     most_similair_name = get_champ_with_longest_same_substring(find_champ_with_longest_same_substring(name))
+        #     names.append(most_similair_name)
+
+    return relevant_options_for_strategy
+
+def decide_to_take_dragons_treasure(relevant_options):
+    return True
+
+def treasure_dragon_round():
+    # set timer for 30 sec or so and make it condition for loop
+    took_treasure = False
+    time_spent = 0
+    start = time.time()
+    while(time.time() - start < 30):
+        names = ocrFunctions.get_treasure_dragon_options_ImageGrab(4)
+        relevant_options = get_relevant_options_treasure_dragon(names)
+        take_all = decide_to_take_dragons_treasure(relevant_options)
+        if(take_all):
+            keyboardFunctions.take_treasure()
+            took_treasure = True
+            break
+        else:
+            keyboardFunctions.reroll()
+    if(not took_treasure):
+        keyboardFunctions.take_treasure()
 
 # main function while game is running, calls functions for different stage types
 def game_strategy():
@@ -787,17 +848,18 @@ def game_strategy():
         if(last_stage != current_stage):
             if(get_stage_type_without_screenshot(current_stage) == "first_carousel"):
                 carousel_round_first()
-            if(get_stage_type_without_screenshot(current_stage) == "carousel"):
+            elif(get_stage_type_without_screenshot(current_stage) == "carousel"):
                 carousel_round()
-            if(get_stage_type_without_screenshot(current_stage) == "pve"):
+            elif(get_stage_type_without_screenshot(current_stage) == "pve"):
                 pve_round(current_stage)
-            if(get_stage_type_without_screenshot(current_stage) == "pvp"):
-                pvp_round()
-            if(get_stage_type_without_screenshot(current_stage) == "augment_pvp"):
+            elif(get_stage_type_without_screenshot(current_stage) == "pvp"):
+                pvp_round(current_stage)
+            elif(get_stage_type_without_screenshot(current_stage) == "augment_pvp"):
                 time.sleep(1.5)
                 augment_round()
-                pvp_round()
-
+                pvp_round(current_stage)
+            elif(get_stage_type_without_screenshot(current_stage) == "treasure_dragon"):
+                treasure_dragon_round()
         last_stage = current_stage
         time.sleep(1)
     print("leave game")
@@ -855,6 +917,7 @@ def give_special_champs_right_pos(lvl):
             keyboardFunctions.move_things(champToMove.coords, champ_to_here_slot_on_board)
             #champions.changeOnBoardBool(champToMove.coords, True)
             champions.changePosChamp(champToMove.coords, champ_to_here_slot_on_board)
+            champions.changeOnBoardBool(champ_to_here_slot_on_board, True)
 
 def sell_first_champ_if_necessary():
     if(len(champions.current_champions) == 0):
@@ -945,17 +1008,16 @@ def pve_round(stage):
         # spend money, buying champs, buying xp, sell champs
         test_gold = 10
 
-        # version 2:
         shop = get_champ_names_shop_smart()
         if(need_to_buy_second_champ):
             if(len(set(shop).intersection(comps.lux_comp_champs)) > 1):
                 # buy champion that fit in comp
                 print(">1")
-                spend_money(test_gold, 10, shop, lvl, 0)
+                spend_money(test_gold, shop, lvl, 0)
             elif(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
                 # buy one champion that fits in comp and one random one
                 print(">0")
-                spend_money(test_gold, 10, shop, lvl, 0)
+                spend_money(test_gold, shop, lvl, 0)
                 for i in range(4):
                     if(i != get_index_of_final_comp_champ_in_shop(shop)):
                         buy_random_champ_index = i
@@ -967,7 +1029,7 @@ def pve_round(stage):
         else:
             if(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
                 # buy champion that fit in comp
-                spend_money(test_gold, 10, shop, lvl, 0)
+                spend_money(test_gold, shop, lvl, 0)
             else:
                 # buy one random champion
                 keyboardFunctions.buy_champ(0)           
@@ -988,7 +1050,7 @@ def pve_round(stage):
         search_for_new_champs_on_bench_1_3()
         sell_champs_on_bench()
 
-        spend_money(test_gold, 10, shop, lvl, 0)
+        spend_money(test_gold, shop, lvl, 0)
         show_what_the_programm_thinks_how_board_looks_like()
 
     elif(stage == "1-4"):
@@ -1001,7 +1063,7 @@ def pve_round(stage):
         shop = get_champ_names_shop_smart()
         if(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
             # buy champions that fit in comp
-            spend_money(test_gold, 10, shop, lvl, 0)
+            spend_money(test_gold, shop, lvl, 0)
         else:
             # buy one random champion
             keyboardFunctions.buy_champ(0)
@@ -1021,7 +1083,7 @@ def pve_round(stage):
         search_for_new_champs_on_bench_1_3()
         sell_champs_on_bench()
 
-        spend_money(test_gold, 10, shop, lvl, 0)
+        spend_money(test_gold, shop, lvl, 0)
         show_what_the_programm_thinks_how_board_looks_like()
     else:
         missing_xp_to_lvl_up = 1
@@ -1049,10 +1111,16 @@ def pve_round(stage):
         else:
             print("Error in retrieving gold")
             pass
+
+        ocrFunctions.set_champ_lvl()
+
+        # reorganize team for krugs
+        if(stage == "2-7"):
+            reorganize_board_for_krugs()
         
         # spend money, buying champs, buying xp, sell champs
         shop = get_champ_names_shop_smart()
-        spend_money(gold, 10, shop, lvl, missing_xp_to_lvl_up)
+        spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
 
         # search for loot
         pick_up_orbs()
@@ -1064,58 +1132,43 @@ def pve_round(stage):
         search_for_new_champs_on_bench()
 
         # get champs on board in order
-        get_team_in_order(lvl)
+        if(stage != "2-7"):
+            get_team_in_order(lvl)
 
         # put champ on board if one space open
         give_special_champs_right_pos(lvl)
         
         # search items
-        item_found = search_for_new_items_on_bench()
-        if(not controlMode.layout_recognized):
-            if(item_found):
-                print(items.current_items)
-                print(items.current_items_on_bench)
-                keyboardFunctions.right_click(coordinates.top_right_screen)
-                keyboardFunctions.left_click(items.current_items[0].coords)
-                layout = ocrFunctions.get_item_bench_layout()
-                print(layout)
-                if(layout == 1):  #TODO: find layout variant
-                    print("layout 1")
-                    controlMode.item_bench_layout = coordinates.item_bench_layout1
-                    controlMode.item_bench_name_layout = coordinates.item_name_bench_layout1
-                    controlMode.layout_recognized = True
-                if(layout == 2):
-                    print("layout 2")
-                    controlMode.layout_recognized = True
-                if(layout == -1):
-                    print("found both")
-                    pass
-                if(layout == 0):
-                    print("found neither")
-                    pass
+        # item_found = search_for_new_items_on_bench()
+        # if(not controlMode.layout_recognized):
+        #     if(item_found):
+        #         print(items.current_items)
+        #         print(items.current_items_on_bench)
+        #         keyboardFunctions.right_click(coordinates.top_right_screen)
+        #         keyboardFunctions.left_click(items.current_items[0].coords)
+        #         layout = ocrFunctions.get_item_bench_layout()
+        #         print(layout)
+        #         if(layout == 1):  #TODO: find layout variant
+        #             print("layout 1")
+        #             controlMode.item_bench_layout = coordinates.item_bench_layout1
+        #             controlMode.item_bench_name_layout = coordinates.item_name_bench_layout1
+        #             controlMode.layout_recognized = True
+        #         if(layout == 2):
+        #             print("layout 2")
+        #             controlMode.layout_recognized = True
+        #         if(layout == -1):
+        #             print("found both")
+        #             pass
+        #         if(layout == 0):
+        #             print("found neither")
+        #             pass
 
-                keyboardFunctions.left_click(items.current_items[0].coords)
+        #         keyboardFunctions.left_click(items.current_items[0].coords)
     
 
-def pvp_round():
+def pvp_round(stage):
 
-    # look for loot bags
-    pick_up_orbs()
-    keyboardFunctions.go_to((597, 217))
-   # check important stats, get info
-    # hp = get_hp()
-    # if(hp != -1):
-    #     print(hp)
-    #     pass
-    # else:
-    #     print("Error in retrieving hp")
-
-    # lvl = get_lvl()
-    # if(lvl != -1):
-    #     print(lvl)
-    #     pass
-    # else:
-    #     print("Error in retrieving lvl")
+    # check important stats, get info
     missing_xp_to_lvl_up = 1
     lvl_progress = get_lvl_progress()
     if(lvl_progress[1] == -1 or lvl_progress[1] == -2):
@@ -1134,11 +1187,6 @@ def pvp_round():
             print("this one")
             lvl = get_lvl()
 
-
-
-    #money_needed_to_lvl_up = calculate_money_to_lvl_up(lvl_progress)
-    money_needed_to_lvl_up = 10 # for now to save time
-
     gold = get_gold()
     if(gold != -1):
         print(gold)
@@ -1147,34 +1195,130 @@ def pvp_round():
         print("Error in retrieving gold")
         pass
 
-    ocrFunctions.set_champ_lvl()
+    # hp = get_hp()
+    # if(hp != -1):
+    #     print(hp)
+    #     pass
+    # else:
+    #     print("Error in retrieving hp")
 
-    # spend money, buying champs, buying xp, sell champs
-    shop = get_champ_names_shop_smart()
-    lvl = spend_money(gold, money_needed_to_lvl_up, shop, lvl, missing_xp_to_lvl_up)
+    if(lvl >= 6):
+        print("lvl 6 and higher")
+        # move to top left corner
+        keyboardFunctions.go_to((607, 352))
 
-    # delete champs out of current champ list that are on board
-    delete_elements_on_bench()
+        # restore order on board after krugs, very unlikely here
+        if(stage == "3-1"):
+            restore_order_after_krugs()
 
-    # champ names, item names
-    search_for_new_champs_on_bench()
+        # set star lvl of comp champs on board
+        ocrFunctions.set_champ_lvl()
 
-    # show_what_the_programm_thinks_how_board_looks_like()
-    # show_what_the_programm_thinks_how_board_looks_like2()
-    
-    # change board
-    get_team_in_order(lvl)
-    add_random_champ_on_board_if_needed(lvl, shop)
-    # show_what_the_programm_thinks_how_board_looks_like()
-    # show_what_the_programm_thinks_how_board_looks_like2()
-    sell_champs_on_bench()
+        # delete champs out of current champ list that are on board
+        delete_elements_on_bench()
 
-    # place items, change pos of items and champs
-    # found_items = search_for_new_items_on_bench()
-    # if(found_items):
-    #     equip_items()
+        # champ names, item names
+        search_for_new_champs_on_bench()
 
+        # show_what_the_programm_thinks_how_board_looks_like()
+        # show_what_the_programm_thinks_how_board_looks_like2()
 
+        # get shop
+        shop = get_champ_names_shop_smart()
+
+        # change board
+        get_team_in_order(lvl)
+        add_random_champ_on_board_if_needed(lvl, shop)
+        # show_what_the_programm_thinks_how_board_looks_like()
+        # show_what_the_programm_thinks_how_board_looks_like2()
+        sell_champs_on_bench()
+
+        # spend money, buying champs, buying xp, sell champs
+        lvl = spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
+
+        # if lvl_up in spend_money add unit to board
+        add_random_champ_on_board_if_needed(lvl, shop)
+
+        # look for loot bags
+        pick_up_orbs()
+
+        # place items, change pos of items and champs
+        # found_items = search_for_new_items_on_bench()
+        # if(found_items):
+        #     equip_items()
+
+    elif(lvl < 6):
+        
+        print("lvl 5 and lower")
+        # move to top left corner
+        keyboardFunctions.go_to((607, 352))
+
+        # restore order on board after krugs
+        if(stage == "3-1"):
+            restore_order_after_krugs()
+
+        # set star lvl of comp champs on board
+        ocrFunctions.set_champ_lvl()
+
+        # spend money, buying champs, buying xp, sell champs
+        shop = get_champ_names_shop_smart()
+        lvl = spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
+
+        # delete champs out of current champ list that are on board
+        delete_elements_on_bench()
+
+        # champ names, item names
+        search_for_new_champs_on_bench()
+
+        # show_what_the_programm_thinks_how_board_looks_like()
+        # show_what_the_programm_thinks_how_board_looks_like2()
+
+        # change board
+        get_team_in_order(lvl)
+        add_random_champ_on_board_if_needed(lvl, shop)
+        # show_what_the_programm_thinks_how_board_looks_like()
+        # show_what_the_programm_thinks_how_board_looks_like2()
+        sell_champs_on_bench()
+        show_what_the_programm_thinks_how_board_looks_like()
+        # look for loot bags
+        pick_up_orbs()
+
+        # place items, change pos of items and champs
+        # found_items = search_for_new_items_on_bench()
+        # if(found_items):
+        #     equip_items()
+
+# func not used yet, don't know when to use it in pvp_strategy
+def check_unit_from_carousel():
+    index = get_empty_space_on_bench()
+    list = champions.getInfoCarouselChamp(coordinates.bench_champs[index])
+    if(list == "error"):
+        print("error")
+    else:
+        name = list[0]
+        uncompleted_item = list[1]
+        completed_item = list[2]
+        print(name + uncompleted_item + completed_item)
+        item_parts_list = []
+        if(name in comps.champs_with_items):
+            # iterate throug all item wearing champs
+            for i in range(len(comps.item_lists)):
+                items = comps.item_lists[i]
+                items_bool = comps.equipped_items_boolean_lists[i]
+                # iterate throug all chosen items for that champ
+                for l in range(len(items)):
+                    # if item is not equipped yet, item parts are still needed on that champ
+                    if(not items_bool[l]):
+                        current_item = items[l]
+                        item_parts = generalData.dict_full_items_craftable[current_item]
+                        item_parts_list.append(item_parts[0])
+                        item_parts_list.append(item_parts[1])
+                if(uncompleted_item in item_parts_list or completed_item in items):
+                    pass
+                else:
+                    # sell unit
+                    keyboardFunctions.sell_champ(coordinates.bench_champs[index])
+                    champions.delChamp(coordinates.bench_champs[index])
 
 def augment_round():
     augment1 = get_text_augment(0)
@@ -1192,3 +1336,21 @@ def augment_round():
         keyboardFunctions.left_click(coordinates.augment_name_middle_click)
     if(augment_to_choose == 2):
         keyboardFunctions.left_click(coordinates.augment_name_right_click)
+
+def reorganize_board_for_krugs():
+    board_indexes_for_krugs = [12, 6, 19, 26, 18, 13]
+    currently_used_indexes_sorted = champions.sortChampOnBoard()
+    for i in range(len(currently_used_indexes_sorted)):
+        keyboardFunctions.move_things(coordinates.champs_on_board[currently_used_indexes_sorted[i]], coordinates.champs_on_board[board_indexes_for_krugs[i]])
+        champions.changePosChamp(coordinates.champs_on_board[currently_used_indexes_sorted[i]], coordinates.champs_on_board[board_indexes_for_krugs[i]])
+    champions.indexes_used = currently_used_indexes_sorted
+
+def restore_order_after_krugs():
+    currently_used_indexes_sorted = champions.indexes_used
+    board_indexes_for_krugs = [12, 6, 19, 26, 18, 13]
+    for i in range(len(currently_used_indexes_sorted)):
+        keyboardFunctions.move_things(coordinates.champs_on_board[board_indexes_for_krugs[i]], coordinates.champs_on_board[currently_used_indexes_sorted[i]])
+        champions.changePosChamp(coordinates.champs_on_board[board_indexes_for_krugs[i]], coordinates.champs_on_board[currently_used_indexes_sorted[i]])
+    champions.indexes_used = []
+
+#print(get_champ_name((coordinates.champ_name_bench[10], coordinates.champ_name_bench[11])))

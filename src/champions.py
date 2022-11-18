@@ -23,6 +23,20 @@ class Champion:
 
 current_champions = []
 current_champions_on_bench = []
+
+def getChampionSlot(coords, onBoardBool):
+    if(onBoardBool):
+        for i in range(len(coordinates.champs_on_board)):
+            if(coordinates.champs_on_board[i] == coords):
+                return i
+        else:
+            return -1
+    else:
+        for i in range(len(coordinates.bench_champs)):
+            if(coordinates.bench_champs == coords):
+                return i
+        else:
+            return -1
 def getChampionIndex(coords):
     for index in range(len(current_champions)):
         if(current_champions[index].coords == coords):
@@ -35,7 +49,16 @@ def getChampionIndexOnBench(coords):
             return index
     else:
         return -1
-
+def getChampionName(coords):
+    for index in range(len(current_champions)):
+        if(current_champions[index].coords == coords):
+            return current_champions[index].name
+    return "error"
+def getInfoCarouselChamp(coords):
+    for index in range(len(current_champions)):
+        if(current_champions[index].coords == coords):
+            return [current_champions[index].name, current_champions[index].uncompletedItems, current_champions[index].completedItems]
+    return "error"
 def getNumberOfChampionsOnBoard():
     num_on_board = 0
     for i in range(len(current_champions)):
@@ -133,9 +156,47 @@ def findHighestLvlOfThisChamp(name):
             if(current_champions[i].star > lvl):
                 lvl = current_champions[i].star
     return lvl
+def insertionSort(array):
+    # start from 1 since element 0 is trivially sorted
+    for i in range(1, len(array)):
+        key = array[i]
+        # Move elements of arr[0..i-1], that are
+        # greater than key, to one position ahead
+        # of their current position
+        j = i-1
+        while j >=0 and key < array[j] :
+                array[j+1] = array[j]
+                j -= 1
+        array[j+1] = key
 
-# addChamp("Illaoi", coordinates.bench_champs[0], 1, [], [], 28, False, False)
-# addChamp("ill", coordinates.bench_champs[4], 1, [], [], 2, False, False)
+def sortChampOnBoard():
+    champs_on_board_coords_list = []
+    champs_on_board_indexes = []
+    for i in range(len(current_champions)):
+        if(current_champions[i].onBoardBool):
+            champs_on_board_coords_list.append(current_champions[i].coords)
+    print(champs_on_board_coords_list)
+    # TODO use "slot" in addChamp or ChangePos and supersede this part
+    number_of_indexes_to_find = len(champs_on_board_coords_list)
+    number_of_indexes_found = 0
+    for l in range(len(coordinates.champs_on_board)):
+        if(coordinates.champs_on_board[l] in champs_on_board_coords_list):
+            champs_on_board_indexes.append(l)
+            number_of_indexes_found += 1
+            if(number_of_indexes_found == number_of_indexes_to_find):
+                break
+    insertionSort(champs_on_board_indexes)
+    print(champs_on_board_indexes)
+    return champs_on_board_indexes
+
+# global variable, needed for board swap at krugs round
+indexes_used = []
+
+# addChamp("Illaoi", coordinates.champs_on_board[0], 1, [], [], 28, False, True)
+# addChamp("ill", coordinates.champs_on_board[7], 1, [], [], 2, False, True)
+# addChamp("ill", coordinates.champs_on_board[4], 1, [], [], 2, False, True)
+# sortChampOnBoard()
+
 # print(current_champions[0].slot)
 # print(current_champions[1].slot)
 # delChamp(coordinates.bench_champs[0])

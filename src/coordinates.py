@@ -77,7 +77,7 @@ item_name_bench_layout1 = [(391, 200), (616, 234), (425, 176), (658, 205), (448,
 item_name_bench_layout2 = [(391, 200), (616, 234), (425, 176), (658, 205), (402, 117), (636, 183), (448, 117), (683, 154), (425, 81), (709, 108), (442, 42), (671, 73), (492, 41), (725, 72), (475, 80), (719, 128), (505, 119), (738, 149), (542, 90), (772, 121)] # until 5/6th index fine but sparring gloves still p                      roblem   
 #item_name_bench = [(391, 200), (616, 234), (425, 176), (658, 205), (405, 136), (647, 163), (448, 117), (683, 154), (425, 81), (709, 108), (442, 42), (671, 73), (492, 41), (725, 72), (499, 126), (724, 153)]
 champ_name_bench_old = [(612, 691), (742, 714), (737, 689), (867, 715), (864, 692), (994, 715), (980, 691), (1110, 711), (1101, 692), (1231, 712), (1226, 693), (1356, 712), (1342, 691), (1473, 711), (1476, 692), (1599, 715), (1590, 689), (1720, 713)]
-champ_name_bench = [(612, 691), (742, 714), (726, 690), (847, 715), (864, 692), (994, 715), (980, 691), (1110, 711), (1101, 694), (1231, 712), (1226, 693), (1356, 712), (1342, 691), (1473, 711), (1476, 692), (1599, 715), (1590, 689), (1720, 713)]
+champ_name_bench = [(612, 691), (742, 714), (726, 690), (847, 715), (864, 692), (994, 715), (980, 691), (1110, 711), (1101, 694), (1231, 712), (1226, 693), (1356, 712), (1342, 694), (1473, 712), (1476, 692), (1599, 715), (1590, 689), (1720, 713)]
 # champ_name_bench needed for nunu willump: (564, 691), (742, 714)
 
 first_item_name_on_bench_champ = []
@@ -87,6 +87,7 @@ first_item_name_on_bench_champ = []
 # print(first_item_name_on_bench_champ)
 first_item_name_on_bench_champ = [(670, 816), (910, 849), (788, 816), (1028, 849), (906, 816), (1146, 849), (1024, 816), (1264, 849), (1142, 816), (1382, 849), (1260, 816), (1500, 849), (1378, 816), (1618, 849), (1496, 816), (1736, 849), (1614, 816), (1854, 849)]
 champ_names_shop = [(483, 1043), (598, 1065), (686, 1045), (802, 1066), (886, 1044), (1001, 1066),(1089, 1043), (1193, 1067), (1290, 1043), (1407, 1067)]
+option_names_treasure_dragon = [(403, 1008), (519, 1055), (548, 1008), (679, 1055), (702, 1008), (824, 1055), (851, 1008), (964, 1055), (997, 1008), (1117, 1055)]
 
 current_gold = [(870, 880), (920, 910)]
 current_lvl= [(313, 882), (346, 910)]
@@ -102,15 +103,18 @@ button_for_hp = (1891, 126)
 def getAugmentCoords():
     return [augment_name_left, augment_name_middle, augment_name_right]
 
+take_treasure_button = (1357, 941)
+# loot in the middle of the board
+treasure_loot = (950, 412)
 
 # star_lvl
 #TODO: adapt coords
-lux_star_coords = [(1322, 518), (1349, 588)] # with item, second calculated
-skarner_star_coords = [(855, 359), (882, 417)] # with item finished
+lux_star_coords = [(1322, 518), (1353, 600)] # with item, second calculated
+skarner_star_coords = [(855, 359), (887, 422)] # with item finished
 sylas_star_coords = [(1091, 302), (1119, 369)] # with item finished
-varus_star_coords = [(1178, 537), (1205, 607)] # with item, first missing
-nidalee_star_coords = [(525, 567), (552, 613)] # finished
-vladimir_star_coords = [(1226, 452), (1251, 506)] # finished    
+varus_star_coords = [(1046, 530), (1080, 609)] # with item, first missing
+nidalee_star_coords = [(525, 567), (557, 618)] # finished
+vladimir_star_coords = [(1226, 452), (1256, 511)] # finished    
 
 aurelion_star_coords = [(), ()] # with items
 # 4 higher, 2 lower values, vlad and skarner
