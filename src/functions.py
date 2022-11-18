@@ -2,7 +2,7 @@ from decimal import ROUND_UP
 from email.errors import MissingHeaderBodySeparatorDefect
 from tokenize import cookie_re
 from cv2 import CAP_PROP_OPENNI_MAX_TIME_DURATION, COLORMAP_SPRING, fastNlMeansDenoising, repeat
-from numpy import append
+from numpy import True_, append
 
 import pydirectinput
 from pyparsing import java_style_comment
@@ -363,6 +363,7 @@ def search_for_new_champs_on_bench_stage_1_2():
             finalCompBool = True
         champions.addChamp(champ_name, coordinates.bench_champs[0], 1, result_item[1], [], 0, finalCompBool, False)
         champions.changePosChamp(coordinates.bench_champs[0], coordinates.champs_on_board[24])
+        champions.changeOnBoardBool(coordinates.champs_on_board[24], True)
     # print("champs on board:")
     # for i in range(len(champions.current_champions)):
     #     if(champions.current_champions[i].onBoardBool):
@@ -631,7 +632,8 @@ def get_empty_space_on_board():
     list_not_available_slots = []
     for i in range(len(champions.current_champions)):
         if(champions.current_champions[i].onBoardBool):
-            list_not_available_slots.append(champions.getChampionIndex(champions.current_champions[i].coords))
+            list_not_available_slots.append(champions.getChampionSlot(champions.current_champions[i].coords, champions.current_champions[i].onBoardBool))
+    print(list_not_available_slots)
     for i in range(len(coordinates.champs_on_board)):
         if(not i in list_not_available_slots and not i in comps.lux_comp_placement_on_board_list):
             print("empty slot on board:" + str(i))
@@ -641,9 +643,7 @@ def get_empty_space_on_bench():
     list_not_available_slots = []
     for i in range(len(champions.current_champions)):
         if(not champions.current_champions[i].onBoardBool):
-            for l in range(len(coordinates.bench_champs)):
-                if(coordinates.bench_champs[l] == champions.current_champions[i].coords):
-                    list_not_available_slots.append(l)
+            list_not_available_slots.append(champions.getChampionSlot(champions.current_champions[i].coords, champions.current_champions[i].onBoardBool))
     for i in range(len(coordinates.bench_champs)):
         if(not i in list_not_available_slots):
             print("empty slot on bench:" + str(i))
@@ -666,12 +666,13 @@ def get_team_in_order(lvl):
                 print(place_champ_here_index)
                 keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[place_champ_here_index])
                 champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[place_champ_here_index])
+                champions.changeOnBoardBool(coordinates.champs_on_board[place_champ_here_index], True)
                 comps.lux_comp_champs_on_board[champions.current_champions[i].name] = True
             else:
                 print("ssss")
                 return True
         elif(champions.current_champions[i].name in comps.lux_comp_champs and champions.current_champions[i].onBoardBool and champions.current_champions[i].coords == coordinates.champs_on_board[comps.lux_comp_placement_on_board[champions.current_champions[i].name]]):
-            print("s")
+            print("comp champ already on place on board")
             pass
         # if champ is part of comp and on board but not on his allocated position, therefore place champ on bench
         elif(champions.current_champions[i].name in comps.lux_comp_champs and champions.current_champions[i].onBoardBool and not champions.current_champions[i].coords == coordinates.champs_on_board[comps.lux_comp_placement_on_board[champions.current_champions[i].name]]):
@@ -680,6 +681,7 @@ def get_team_in_order(lvl):
             empty_space_on_bench = get_empty_space_on_bench()
             keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.bench_champs[empty_space_on_bench])
             champions.changePosChamp(champions.current_champions[i].coords, coordinates.bench_champs[empty_space_on_bench])
+            champions.changeOnBoardBool(coordinates.bench_champs[empty_space_on_bench], False)
         # don't sell comp champs 
         elif(champions.current_champions[i].name in comps.lux_comp_champs):
             print("ss")
@@ -712,8 +714,10 @@ def add_random_champ_on_board_if_needed(lvl, shop):
         for i in range(len(champions.current_champions)):
             if(not champions.current_champions[i].onBoardBool and not champions.current_champions[i].name in comps.lux_comp_champs):
                 print("from bench")
-                keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[i])
-                champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[i])
+                empty_space_on_board = get_empty_space_on_board()
+                keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[empty_space_on_board])
+                champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[empty_space_on_board])
+                champions.changeOnBoardBool(coordinates.champs_on_board[empty_space_on_board], True)
                 how_many_random_champs_need_to_be_placed_on_board -= 1
                 continue
         bench_empty = True
@@ -743,6 +747,14 @@ def add_random_champ_on_board_if_needed(lvl, shop):
                 del shop_useable_indizes[0]
                 print("from shop")
 
+# comps.lux_comp_champs_on_board["Lux"] = True
+# champions.addChamp("Lux", coordinates.champs_on_board[1], 1, [], [], 1, True, True)
+# champions.addChamp("Lux", coordinates.bench_champs[7], 1, [], [], 7, True, False)
+
+# champions.addChamp("Ezreal", coordinates.bench_champs[1], 1, [], [], 1, False, False)
+# champions.addChamp("Ezreal", coordinates.bench_champs[4], 1, [], [], 4, False, False)
+# add_random_champ_on_board_if_needed(3, [])
+
 def show_what_the_programm_thinks_how_board_looks_like():
     board = []
     bench = []
@@ -768,7 +780,6 @@ def show_what_the_programm_thinks_how_board_looks_like2():
                 bench.append((champions.current_champions[i].name))
     print(board)
     print(bench)
-time.sleep(4)
 # choice based only on items (parts) so far
 def get_relevant_options_treasure_dragon(options_names):
     relevant_options_for_strategy = []
@@ -906,6 +917,7 @@ def give_special_champs_right_pos(lvl):
             keyboardFunctions.move_things(champToMove.coords, champ_to_here_slot_on_board)
             #champions.changeOnBoardBool(champToMove.coords, True)
             champions.changePosChamp(champToMove.coords, champ_to_here_slot_on_board)
+            champions.changeOnBoardBool(champ_to_here_slot_on_board, True)
 
 def sell_first_champ_if_necessary():
     if(len(champions.current_champions) == 0):
@@ -1267,7 +1279,7 @@ def pvp_round(stage):
         # show_what_the_programm_thinks_how_board_looks_like()
         # show_what_the_programm_thinks_how_board_looks_like2()
         sell_champs_on_bench()
-
+        show_what_the_programm_thinks_how_board_looks_like()
         # look for loot bags
         pick_up_orbs()
 

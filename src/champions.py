@@ -23,6 +23,20 @@ class Champion:
 
 current_champions = []
 current_champions_on_bench = []
+
+def getChampionSlot(coords, onBoardBool):
+    if(onBoardBool):
+        for i in range(len(coordinates.champs_on_board)):
+            if(coordinates.champs_on_board[i] == coords):
+                return i
+        else:
+            return -1
+    else:
+        for i in range(len(coordinates.bench_champs)):
+            if(coordinates.bench_champs == coords):
+                return i
+        else:
+            return -1
 def getChampionIndex(coords):
     for index in range(len(current_champions)):
         if(current_champions[index].coords == coords):
