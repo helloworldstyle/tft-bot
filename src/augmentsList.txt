@@ -1,436 +1,421 @@
-Portable Forge
-78.90
-Celestial Blessing II
-75.81
-Mage Crown
-72.61
-Urf's Grab Bag I
-68.76
-Thrill of the Hunt II
-68.62
-Mage Crest
-68.45
-Jeweled Lotus
-67.62
-Better Together
-67.26
-Component Grab Bag
-66.49
-Guild Crest
-64.88
-Guild Crown
-64.12
-Blue Battery I
-63.99
-Cybernetic Uplink II
-63.75
-Second Wind II
-63.68
-Ascension
-63.42
-Celestial Blessing I
-63.41
-Mage Heart
-63.39
-Band of Thieves I
-62.10
-Luden's Echo I
-61.64
-Thrill of the Hunt I
-61.59
-Stand United II
+fiddlesticks
+Absolute Corruption
+3
+Gain a Fiddlesticks. Combat Start: Fiddlesticks grants its nearest ally 30 Ability Power and allows them to share its Corrupted souls.
 
-Celestial Blessing III
-60.91
-Blue Battery II
-60.08
-Item Grab Bag I
-60.07
-Preparation II
-59.90
-Second Wind I
-59.31
-Evoker Crown
-59.22
-Cybernetic Uplink III
-58.35
-Essence Theft
-58.22
-Luden's Echo II
-57.85
-Big Friend II
-57.66
-Oasis
-57.63
-Lagoon Crest
-57.54
-Axiom Arc II
-57.39
-Tiny Titans
-57.17
-Base Camp
-57.08
-Ancient Archives I
-56.99
-Protectors of the Cosmos
-56.68
-Scalescorn Crown
-56.58
-Cybernetic Uplink I
-56.39
-Lagoon Crown
-56.16
-Evoker Crest
-56.05
-Weakspot
-55.88
-Press the Attack
-55.88
-Mystic Heart
-55.56
-The Golden Egg
-55.13
-Preparation I
-54.99
-Beast's Den
-54.94
-Personal Training
-54.73
-Loot Master
-54.52
-Cybernetic Shell II
-54.46
-Level Up!
-54.45
-Living ForgeHallucinate
-49.63
-Exiles II
-49.54
-Woodland Charm
-49.38
-Mirage Crest
-49.33
-Evoker Heart
-49.32
-Cybernetic Shell I
-49.32
-Calculated Loss
-49.30
-Rich Get Richer
-49.26
-Built Different I
-49.16
-Scorch
-49.08
-Exiles I
-49.06
-Swiftshot Crest
-48.99
-Tri Force I
-48.94
-Shimmerscale Heart
-48.89
-Tri Force III
-48.83
-Bruiser Heart
-48.81
-Double Trouble II
-48.59
-Golden Ticket
-48.31
-Devastating Charge
-48.07
-Guardian Crown
-48.05
-Rich Get Richer+
-48.00
-Windfall++
-47.93
-Band of Thieves II
-47.87
-Heroic Presence
-47.86
-Cruel Pact
-47.83
-Salvage Bin
-47.82
-Dragonmancer Conference
-47.79
-Mirage Heart
-47.58
-Big Friend I
-47.37
-Swiftshot Crown
-47.17
-Bruiser Crest
-47.05
-Tantrum
-47.03
-Cybernetic Shell III
-46.97
-Best Friends I
-46.92
-Electrocharge III
-46.75
-Think Fast
-46.61
+tier3
+Ace Crown
+3
+Gain an Ace Emblem, a Runaan's Hurricane, and 2 gold.
+
+tier3
+A.D.M.I.N Crown
+3
+Gain an A.D.M.I.N. Emblem, a Hand of Justice, and a Camille.
+
+tier3
+Aegis Crown
+3
+Gain an Aegis Emblem, a Redemption, and an Alistar.
+
+ancientarchives3
 Ancient Archives II
-46.52
-Guardian Crest
-46.48
-Scoped Weapons I
-46.41
-Titanic Strength
-46.39
-True Twos
-46.31
-Scoped Weapons II
-46.30
-Battlemage II
-46.27
-Cybernetic Implants I
-46.26
-High Roller
-46.11
-Windfall
-46.07
-Jade Soul
-46.01
-Hero-In-Training
-45.69
-Mirage Crown
-45.64
-Combat Training
-45.54
-Cavalier Unity
-45.47
-Darkflight Crown
-45.23
-Item Grab Bag II
-45.15
-Shimmerscale Crest
-54.27
-Pandora's Items
-54.21
-Cluttered Mind
-54.14
-Trade Sector
-54.09
-Electrocharge II
-54.00
-Gear Upgrades
-53.79
-Axiom Arc I
-53.70
-Sunfire Board
-53.70
-Stand United III
-53.66
-Lagoon Heart
-53.41
-Stand United I
-53.39
-March of Progress
-53.32
-Built Different III
-53.28
-Cybernetic Implants II
-53.11
-High Tide
-53.01
-Electrocharge I
-52.78
-New Recruit
-52.77
-Double Trouble III
-52.67
-Gadget Expert
-52.58
-Cybernetic Implants III
-52.29
-Built Different II
-52.05
-Shimmerscale Soul
-52.03
-Cursed Crown
-51.89
-First Aid Kit I
-51.85
-Pandora's Bench
-51.81
-Binary Airdrop
-51.77
-Lategame Specialist
-51.75
-First Aid Kit II
-51.51
-Dragonmancer Crown
-51.42
-Last Stand
-51.31
-Radiant Relics
-51.27
-Guild Heart
-51.21
-Luden's Echo III
-51.16
-Trade Sector+
-51.09
-Preparation III
-51.09
-Best Friends II
-51.02
-Tri Force II
-50.98
-Urf's Grab Bag II
-50.80
-Cavalier Crown
-50.70
-Jade Crest
-50.65
-Terrify
-50.48
-Wise Spending
-50.44
-AFK
-50.39
-Dragonmancer Crest
-50.35
-Clear Mind
-50.12
-Cavalier Crest
-50.04
-Consistency
-50.00
-Metabolic Accelerator
-49.98
-Age of Dragons
-49.94
-Scalescorn Crest
-49.93
-Dragon Imperialist
-49.92
-High End Shopping
-49.88
-Swiftshot Heart
-49.69
-Lucky Gloves
-45.03
-Scalescorn Heart
-44.97
-Knife's Edge II
-44.84
-Featherweights I
-44.76
-Bruiser Crown
-44.75
-Featherweights II
-44.51
-Mystic Soul
-44.32
-Warrior Heart
-44.12
-Three's Company
-44.05
-Assassin Crown
-43.85
-Featherweights III
-43.81
-Pay to Win
-43.80
-Cavalier Heart
-43.74
-Jade Heart
-43.65
-Guardian Heart
-43.27
-Windfall+
-43.18
-Tempest Crown
-43.11
-Future Sight II
-43.03
-Shapeshifter Heart
-42.97
-Battlemage I
-42.48
-Best Friends III
-42.44
-Penitence
-41.97
-Tempest Heart
-41.80
-Eye of the Storm
-41.72
-Verdant Veil
-41.46
-Darkflight Crest
-41.44
-Hustler
-41.43
-Shapeshifter Soul
-41.38
-Warrior Crown
-40.76
-Eternal Protection
-40.55
-Future Sight I
-40.32
-Birthday Present
-40.03
-Dragon Soul
-39.97
-Knife's Edge III
-39.82
-Warrior Crest
-39.63
-Tempest Crest
-39.23
-Hot Shot
-39.05
-Tiamat
-38.94
-Whispers Heart
-38.92
-Exiles III
-38.80
-Ricochet
-38.25
-Double Trouble I
-38.17
-Ragewing Heart
-37.75
+3
+Gain 2 Tome of Traits.
+
+tier3
+Anima Squad Crown
+3
+Gain an Anima Squad Emblem, an Ionic Spark, and a Riven.
+
+aphelios
+Armor Piercing Rounds
+3
+Gain an Aphelios. His attacks reduce the target's Armor by 10% for the rest of combat (this can stack).
+
+band-of-thieves-ii
+Band of Thieves
+3
+Gain 2 Thief's Gloves
+
+battlemage3
 Battlemage III
-37.19
-Recombobulator
-36.11
-Cutthroat
-34.10
-Cannoneer Heart
-34.03
-Cannoneer Crest
-33.91
-Ragewing Soul
-33.85
-Darkflight Heart
-32.75
-Assassin Heart
-32.01
-Cannoneer Crown
-29.25
-Soul Siphon
+3
+Your units that start combat in the front 2 rows gain 35 Ability Power.
 
-!!!
-Knife's Edge I
-AFK
-Dragonmancer Conference
+binaryairdrop3
+Binary Airdrop
+3
+Your units equipped with 2 items temporarily gain a random completed item at the start of combat. Gain an item component.
+
+tier3
+Brawler Crown
+3
+Gain a Brawler Emblem, a Redemption, and a Riven.
+
+builtdifferent3
+Built Different III
+3
+Your units with no Traits active gain 350-650 Health and 50-95% Attack Speed (based on current Stage).
+
+celestialblessing3
+Celestial Blessing III
+3
+Your units heal for 25% of the damage dealt by attacks and abilities. Excess healing is converted to a shield up to 450 Health.
+
+tier3
+Civilian Crown
+3
+Gain a Civilian Emblem, a Guinsoo's Rageblade, and a Sivir.
+
+combattraining3
+Combat Training III
+3
+Your Champions permanently gain 3 Attack Damage every time they kill an enemy unit. Champions start with 6 Attack Damage.
+
+nunu
+Contagious Laughter
+3
+Gain a Nunu. He gains 30 Ability Power and restores 10 Mana per second.
+
+cruelpact3
+Cruel Pact
+3
+Buying XP costs 6 Health instead of gold. Restore 3 Health per turn.
+
+cursedcrown3
+Cursed Crown
+3
+Gain +2 maximum team size, but take 100% increased player damage.
+
+cybernetic3
+Cybernetic Implants III
+3
+Your units equipped with an item gain 350 Health and 25 Attack Damage
+
+cyberneticshell3
+Cybernetic Shell III
+3
+Your units holding an item gain 350 Health and 40 Armor.
+
+cyberneticuplink3
+Cybernetic Uplink III
+3
+Your units holding an item gain 350 Health and restore 4 Mana per second.
+
+tier3
+Defender Crown
+3
+Gain a Defender Emblem, a Protector's Vow, and a Riven.
+
+disintegrator3
+Disintegrator III
+3
+Your units attacks deal bonus magic damage, equal to 4% of the target's maximum Health.
+
+doubletrouble3
+Double Trouble III
+3
+If you have exactly 2 copies of a champion on your board, they both gain 40 Attack Damage, Ability Power, Armor, and Magic Resist. When you upgrade to 3-star, gain a 2-star copy.
+
+tier3
+Duelist Crown
+3
+Gain a Duelist Emblem, an Edge of Night, and a Nilah.
+
+leona
+Eclipse Prime
+3
+Gain a Leona. When you field her, your team reduces all incoming damage by 30.
+
+electrocharge3
+Electrocharge III
+3
+Whenever your units receive a critical strike, they deal 115/155/195/235 magic damage to nearby enemies. 1 sec cooldown.
+
+syndra
+Empowered Reserves
+3
+Gain a Syndra. When you field her, your team gains 5 Ability Power per unit on your bench.
+
+janna
+Exaggerated Reporting
+3
+Gain a Janna. Forecaster's effects are increased by 100%.
+
+exiles3
+Exiles III
+3
+Your units that start combat with no adajacent allies gain a 50% maximum Health shield for 10 seconds.
+
+featherweights3
+Featherweights III
+3
+Your 1 and 2 cost units gain 60% movement and Attack Speed.
+
+futuresight3
+Future Sight II
+3
+Know who you fight next. Gain a Radiant Zephyr.
+
+tier3
+Gadgeteen Soul
+3
+Your team counts as having 1 additional Gadgeteen. Gain an Ionic Spark and an Annie.
+
+goldenticket
+Golden Ticket
+3
+Each time your Shop is refreshed, you have a 50% chance to gain a free refresh.
+
+tier3
+Hacker Crown
+3
+Gain a Hacker Emblem, a Hand of Justice, and a Leblanc.
+
+tier3
+Heart Crown
+3
+Gain a Heart Emblem, a ZZ'rot Portal, and a Sona.
+
+highendshopping3
+High End Shopping
+3
+Champions appear in your Shop as if you were 1 level higher. Gain 10 gold.
+
+highroller3
+High Roller
+3
+Gain 3 Loaded Dice and 8 gold.
+
+itemgrabbag2
+Item Grab Bag II
+3
+Gain 2 random completed items and a Reforger.
+
+cqctraining3
+Knife's Edge III
+3
+Your units that start combat in the first 2 rows gain 40 Attack Damage.
+
+tier3
+Laser Corps Crown
+3
+Gain a LaserCorps Emblem, a Hand of Justice, and a Senna.
+
+levelup
+Level Up!
+3
+When you buy experience points, gain an additional 3 experience points. You can now reach level 10.
+
+livingforge3
 Living Forge
-Loot Master
-Part-Time Assassin
-Personal Training
-Preparation I
-Preparation II
-Preparation III
-The Golden Egg
+3
+Gain a random Ornn item now and after every 10 player combats.
 
+aphelios
+Locked and Loaded
+3
+Gain an Aphelios. When you field him, your team gains 15% Attack Damage and an additional 5% every 5 seconds.
+
+luckygloves3
+Lucky Gloves
+3
+Thief's Gloves will always give your champions items that they can use well. Gain a Thief's Gloves.
+
+ludensecho3
+Luden's Echo III
+3
+When your units cast and deal Ability damage, the first target hit and a nearby enemy take 90/140/190/240 bonus magic damage.
+
+makeshift3
+Makeshift Armor III
+3
+Your units with no items gain 65 Armor and Magic Resist.
+
+marchofprogress3
+March of Progress
+3
+Gain 5 bonus experience points per round. You can no longer use gold to gain experience points.
+
+tier3
+Mascot Crown
+3
+Gain a Mascot Emblem, a Gargoyle Stoneplate, and an Malphite.
+
+tier3
+Mecha: PRIME Crown
+3
+Gain a Mecha: PRIME Emblem, a Titan's Resolve , and a Jax.
+
+newrecruit
+New Recruit
+3
+Gain +1 team size.
+
+mordekaiser
+Not So Heavy Metal
+3
+Gain a Mordekaiser. He gains 20 Ability Power every 5 seconds.
+
+mordekaiser
+Obliterate
+3
+Gain a Mordekaiser. Combat Start: He reduces enemy Armor and Magic Resist by 20%.
+
+tier3
+Ox Force Crown
+3
+Gain an Ox Force Emblem, a Titan's Resolve, and an Alistar.
+
+leona
+perfected-solar-flare
+3
+Gain a Leona. She gains 30 Ability Power and her maximum Mana is reduced by 20.
+
+syndra
+Power Overwhelming
+3
+Gain a Syndra. Allies summoned by her Ability gain 30% Attack Damage and 30 Ability Power, Armor, and Magic Resist.
+
+tier3
+Prankster Crown
+3
+Gain a Prankster Emblem, an Edge of Night, and a Zoe.
+
+preparation3
+Preparation III
+3
+Units on your bench start at 1 stack and gain 50 Health, 8 Attack Damage and Ability Damage every round, up to 4 times.
+
+radiantrelic3
+Radiant Relics
+3
+Open an Armory and choose 1 of 5 unique Radiant items.
+
+janna
+Rapid Reporting
+3
+Gain a Janna. Her Ability restores 5 Mana per enemy hit.
+
+tier3
+Recon Crown
+3
+Gain a Recon Emblem, a Zeke's Herald, and a Ezreal.
+
+tier3
+Renegade Crown
+3
+Gain a Renegade Crown, a Bloodthirster, and a Camille.
+
+urgot
+Rising Tide
+3
+Gain an Urgot. Combat Start: He grants himself and adjacent allies 25 Ability Power and 15% Attack Speed.
+
+scopedweaponsii3
+Scoped Weapons II
+3
+Your units that start combat in the back 2 rows gain infinite Attack Range.
+
+urgot
+Shiny
+3
+Gain an Urgot. His Ability has an additional 25% chance to dredge up treasure.
+
+tier3
+Spellslinger Crown
+3
+Gain a Spellslinger Emblem, a Jewled Gauntlet, and a Sona.
+
+standunited3
+Stand United III
+3
+Your units gain 3 Attack Damage and Ability Power per Trait active across your team.
+
+tier3
+Star Guardian Crown
+3
+Gain a Star Guardian Emblem, a Chalice of Power and a Nilah.
+
+tier3
+Supers Soul
+3
+Your team counts as having 1 additional Super. Gain a Titan's Resolve and a Lee Sin.
+
+tier3
+Sureshot Crown
+3
+Gain a Sureshot Emblem, an Infinity Edge, and a Senna.
+
+thegolden-egg3
+The Golden Egg
+3
+Gain a massive golden egg that hatches in 10 rounds. Victorious players accelerate hatch timer by 1 round.
+
+nunu
+They See Me Rolling
+3
+Gain a Nunu. When you field him - your team gains 20 Ability Power and an additional 5 every 5 seconds.
+
+thinkfast3
+Think Fast
+3
+Shop refreshes are free until the end of this round. Traits and other augments do not benefit from these free shops. Gain 8 gold.
+
+fiddlesticks
+Traumatic Memories
+3
+Gain a Fiddlesticks. When an ally dies, it gains 200 bonus Health for the rest of combat.
+
+triforce3
+Tri Force III
+3
+Your 3-cost champions gain 333 Health, 33 Mana, and 33% Attack Speed.
+
+tier3
+Underground Crown
+3
+Gain an Underground Emblem, a Hextech Gunblade, and a Sona.
+
+tier3
+Underground Soul
+3
+Your team counts as having 1 additional Underground. Gain a Hextech Gunblade and an Ezreal.
+
+urfsgrabbag3
+Urf's Grab Bag II
+3
+Gain 1 Spatula and 3 random item components.
+
+verdantveil3
+Verdant Veil
+3
+Your units are immune to crowd control effects for the first 20 seconds of combat.
+
+windfall
+Windfall
+3
+Gain 25 gold. (Only shows up on 1-4)
+
+windfall
+Windfall+
+3
+Gain 35 gold. (Only shows up on 3-2)
+
+windfall
+Windfall++
+3
+Gain 45 gold. (Only shows up on 4-2)
+
+wisespending
+Wise Spending
+3
+Gain 2 experience points when you refresh your Shop.
+
+woodlandcharm3
+Woodland Charm
+3
+Your highest Health champion is cloned. Clones cannot hold items.
 # https://www.metasrc.com/tft/tierlist/augments
+# current: https://app.mobalytics.gg/tft/set8/hextech-augments
