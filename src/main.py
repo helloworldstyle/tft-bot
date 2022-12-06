@@ -3,9 +3,8 @@ import keyboardFunctions
 import functions
 
 import time
-keyboardFunctions.switch_windows()
 
-#time.sleep(3)
+keyboardFunctions.switch_windows()
 
 # infinite loop
 while(True):
