@@ -180,8 +180,7 @@ def still_alive() -> bool:
 
 def find_best_augment(augment1, augment2, augment3) -> int:
     print("     find best augment")
-    if(controlMode.lux_comp_active):
-        augments_ranked = comps.lux_augments_ranked
+    augments_ranked = comps.augments_ranked
     positions = []
     if(augment1 == "Error in retrieving augment name"):
         positions.append(250)
@@ -224,19 +223,31 @@ def spend_money(gold, shop, lvl, missing_xp_to_lvl_up):
     if(gold >= 50):
         while(True):
             for i in range(len(shop)):
-                if(shop[i] in comps.lux_comp_champs):
+                if(shop[i] in comps.comp_champs):
                     # check if champ reached his supposed lvl, if not buy champ
-                    if(not comps.lux_comp_champs_max_star_reached[shop[i]]):
+                    if(not comps.comp_champs_max_star_reached[shop[i]]):
                         keyboardFunctions.buy_champ(i)
-                        gold -= comps.lux_comp_cost_dict[shop[i]]
-                                     
-            # strategy lvl on 5, roll on 6 until lux 3, lvl on 7
-            if(lvl == 4 or lvl == 5 or (lvl == 6 and comps.lux_comp_champs_max_star_reached["Lux"]) or lvl == 7):
-                while(gold >= 54):
-                    # lvl up
-                    keyboardFunctions.level_up()
-                    added_xp += 4
-                    gold -= 4     
+                        gold -= generalData.champion_cost_dict[shop[i]]
+
+            # strategy: reroll comp, 1 cost carry, slowroll on lvl 5
+            # ashe comp
+            if(controlMode.ashe_comp_active):
+                if((lvl == 5 and comps.comp_champs_max_star_reached["Ashe"] and comps.comp_champs_max_star_reached["Renekton"]) or (lvl == 6 and comps.comp_champs_max_star_reached["Malphite"] ) or lvl == 7):
+
+                    while(gold >= 54):
+                        # lvl up
+                        keyboardFunctions.level_up()
+                        added_xp += 4
+                        gold -= 4   
+            # kayle comp
+            if(controlMode.kayle_comp_active):
+                if(lvl == 5 and comps.comp_champs_max_star_reached["Kayle"] or lvl == 6 and comps.comp_champs_max_star_reached["Gangplank"] or lvl == 7):
+
+                    while(gold >= 54):
+                        # lvl up
+                        keyboardFunctions.level_up()
+                        added_xp += 4
+                        gold -= 4  
 
             if added_xp >= missing_xp_to_lvl_up: lvl += 1
 
@@ -248,12 +259,12 @@ def spend_money(gold, shop, lvl, missing_xp_to_lvl_up):
 
     else:
         for i in range(len(shop)):
-            if(shop[i] in comps.lux_comp_champs):
+            if(shop[i] in comps.comp_champs):
                 # check if champ reached his supposed lvl, if not buy unit
-                if(not comps.lux_comp_champs_max_star_reached[shop[i]]):
+                if(not comps.comp_champs_max_star_reached[shop[i]]):
                     keyboardFunctions.buy_champ(i)
-                    gold -= comps.lux_comp_cost_dict[shop[i]]
-    return lvl
+                    gold -= generalData.champion_cost_dict[shop[i]]
+    return (lvl, gold)
         
 
 def pick_up_orbs():
@@ -359,7 +370,7 @@ def search_for_new_champs_on_bench_stage_1_2():
         pass 
     else:
         finalCompBool = False
-        if(champ_name in comps.lux_comp_champs):
+        if(champ_name in comps.comp_champs):
             finalCompBool = True
         champions.addChamp(champ_name, coordinates.bench_champs[0], 1, result_item[1], [], 0, finalCompBool, False)
         champions.changePosChamp(coordinates.bench_champs[0], coordinates.champs_on_board[24])
@@ -400,7 +411,7 @@ def search_for_new_champs_on_bench_1_3():
             #             print(new_item_name)
             #             continue
             finalCompBool = False
-            if(champ_name in comps.lux_comp_champs):
+            if(champ_name in comps.comp_champs):
                 finalCompBool = True            
             champions.addChamp(champ_name, coordinates.bench_champs[i], 1, new_item_name, [], 0, finalCompBool, False)
 
@@ -468,7 +479,7 @@ def search_for_new_champs_on_bench():
                         print(new_item_name)
                         continue
             finalCompBool = False
-            if(champ_name in comps.lux_comp_champs):
+            if(champ_name in comps.comp_champs):
                 finalCompBool = True 
             champions.addChamp(champ_name, coordinates.bench_champs[i], 1, new_item_name, [], 0, finalCompBool, False)
 
@@ -491,13 +502,13 @@ def sell_champs_on_bench():
     champs_to_delete = []
     # sell champs which aren't in our comp and remember index
     for i in range(len(champions.current_champions)):
-        if(not champions.current_champions[i].name in comps.lux_comp_champs and not champions.current_champions[i].onBoardBool):
+        if(not champions.current_champions[i].name in comps.comp_champs and not champions.current_champions[i].onBoardBool):
             print(champions.current_champions[i].name)
             print("not comp champ on bench")
             keyboardFunctions.sell_champ(champions.getChampionCoords(i))
             champs_to_delete.append(i)
-        elif(champions.current_champions[i].name in comps.lux_comp_champs and not champions.current_champions[i].onBoardBool):
-            if(comps.lux_comp_champs_max_star_reached[champions.current_champions[i].name]):
+        elif(champions.current_champions[i].name in comps.comp_champs and not champions.current_champions[i].onBoardBool):
+            if(comps.comp_champs_max_star_reached[champions.current_champions[i].name]):
                 print(champions.current_champions[i].name)
                 print("comp champ on bench and max star reached")
                 keyboardFunctions.sell_champ(champions.getChampionCoords(i))
@@ -623,8 +634,8 @@ def place_how_many_champs_on_board(lvl):
 
 def get_how_many_unique_wanted_champs_registered():
     counter = 0
-    for i in range(len(comps.lux_comp_champs_on_board)):
-            if(comps.lux_comp_champs_on_board[comps.lux_comp_champs_list[i]]):
+    for i in range(len(comps.comp_champs_on_board)):
+            if(comps.comp_champs_on_board[comps.comp_champs_list[i]]):
                 counter += 1
     return counter
 
@@ -635,7 +646,7 @@ def get_empty_space_on_board():
             list_not_available_slots.append(champions.getChampionSlot(champions.current_champions[i].coords, champions.current_champions[i].onBoardBool))
     print(list_not_available_slots)
     for i in range(len(coordinates.champs_on_board)):
-        if(not i in list_not_available_slots and not i in comps.lux_comp_placement_on_board_list):
+        if(not i in list_not_available_slots and not i in comps.comp_placement_on_board_list):
             print("empty slot on board:" + str(i))
             return i
 
@@ -649,7 +660,7 @@ def get_empty_space_on_bench():
             print("empty slot on bench:" + str(i))
             return i
 
-def get_team_in_order(lvl):
+def  get_team_in_order(lvl):
     print("GET TEAM IN ORDER")
     print("lvl: " + str(lvl))
     champsCoordsToDelete = []
@@ -658,24 +669,24 @@ def get_team_in_order(lvl):
     for i in range(len(champions.current_champions)):
         print(get_how_many_unique_wanted_champs_registered())
         # access loop if champ is part of comp and there is no examplar of this comp champ on board yet
-        if(champions.current_champions[i].name in comps.lux_comp_champs and not comps.lux_comp_champs_on_board[champions.current_champions[i].name]):
+        if(champions.current_champions[i].name in comps.comp_champs and not comps.comp_champs_on_board[champions.current_champions[i].name]):
             # if a comp champ is needed on board, place this champ on board
             if(lvl - get_how_many_unique_wanted_champs_registered() > 0):
-                place_champ_here_index = comps.lux_comp_placement_on_board[champions.current_champions[i].name]
+                place_champ_here_index = comps.comp_placement_on_board[champions.current_champions[i].name]
                 print(champions.current_champions[i].name)
                 print(place_champ_here_index)
                 keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[place_champ_here_index])
                 champions.changePosChamp(champions.current_champions[i].coords, coordinates.champs_on_board[place_champ_here_index])
                 champions.changeOnBoardBool(coordinates.champs_on_board[place_champ_here_index], True)
-                comps.lux_comp_champs_on_board[champions.current_champions[i].name] = True
+                comps.comp_champs_on_board[champions.current_champions[i].name] = True
             else:
                 print("ssss")
                 return True
-        elif(champions.current_champions[i].name in comps.lux_comp_champs and champions.current_champions[i].onBoardBool and champions.current_champions[i].coords == coordinates.champs_on_board[comps.lux_comp_placement_on_board[champions.current_champions[i].name]]):
+        elif(champions.current_champions[i].name in comps.comp_champs and champions.current_champions[i].onBoardBool and champions.current_champions[i].coords == coordinates.champs_on_board[comps.comp_placement_on_board[champions.current_champions[i].name]]):
             print("comp champ already on place on board")
             pass
         # if champ is part of comp and on board but not on his allocated position, therefore place champ on bench
-        elif(champions.current_champions[i].name in comps.lux_comp_champs and champions.current_champions[i].onBoardBool and not champions.current_champions[i].coords == coordinates.champs_on_board[comps.lux_comp_placement_on_board[champions.current_champions[i].name]]):
+        elif(champions.current_champions[i].name in comps.comp_champs and champions.current_champions[i].onBoardBool and not champions.current_champions[i].coords == coordinates.champs_on_board[comps.comp_placement_on_board[champions.current_champions[i].name]]):
             # place from board on bench
             print("x")
             empty_space_on_bench = get_empty_space_on_bench()
@@ -683,11 +694,11 @@ def get_team_in_order(lvl):
             champions.changePosChamp(champions.current_champions[i].coords, coordinates.bench_champs[empty_space_on_bench])
             champions.changeOnBoardBool(coordinates.bench_champs[empty_space_on_bench], False)
         # don't sell comp champs 
-        elif(champions.current_champions[i].name in comps.lux_comp_champs):
+        elif(champions.current_champions[i].name in comps.comp_champs):
             print("ss")
             pass
         # sell random champ that is not on board
-        elif(not champions.current_champions[i].name in comps.lux_comp_champs and not champions.current_champions[i].onBoardBool):
+        elif(not champions.current_champions[i].name in comps.comp_champs and not champions.current_champions[i].onBoardBool):
             print("sss")
             keyboardFunctions.sell_champ(champions.current_champions[i].coords)
             champsCoordsToDelete.append(champions.current_champions[i].coords)
@@ -703,7 +714,7 @@ def get_team_in_order(lvl):
     for i in range(len(champsCoordsToDelete) - 1, -1, -1):
         champions.delChamp(champsCoordsToDelete[i])
 
-# TODO: replace checking if champion name is in comps.lux_comp_champs, check if champ is finalCompBool
+# TODO: replace checking if champion name is in comps.comp_champs, check if champ is finalCompBool
 def add_random_champ_on_board_if_needed(lvl, shop):
     how_many_random_champs_need_to_be_placed_on_board = lvl - get_how_many_unique_wanted_champs_registered()
     print(how_many_random_champs_need_to_be_placed_on_board)
@@ -712,7 +723,7 @@ def add_random_champ_on_board_if_needed(lvl, shop):
     while(how_many_random_champs_need_to_be_placed_on_board > 0 and not bench_empty):
         # get random champ on board, either from bench
         for i in range(len(champions.current_champions)):
-            if(not champions.current_champions[i].onBoardBool and not champions.current_champions[i].name in comps.lux_comp_champs):
+            if(not champions.current_champions[i].onBoardBool and not champions.current_champions[i].name in comps.comp_champs):
                 print("from bench")
                 empty_space_on_board = get_empty_space_on_board()
                 keyboardFunctions.move_things(champions.current_champions[i].coords, coordinates.champs_on_board[empty_space_on_board])
@@ -726,7 +737,7 @@ def add_random_champ_on_board_if_needed(lvl, shop):
         shop_counter = -1
         shop_useable_indizes = []
         for i in range(len(shop)):
-            if(not shop[i] in comps.lux_comp_champs):
+            if(not shop[i] in comps.comp_champs):
                 shop_useable_indizes.append(i)
                 shop_counter += 1
 
@@ -747,7 +758,7 @@ def add_random_champ_on_board_if_needed(lvl, shop):
                 del shop_useable_indizes[0]
                 print("from shop")
 
-# comps.lux_comp_champs_on_board["Lux"] = True
+# comps.comp_champs_on_board["Lux"] = True
 # champions.addChamp("Lux", coordinates.champs_on_board[1], 1, [], [], 1, True, True)
 # champions.addChamp("Lux", coordinates.bench_champs[7], 1, [], [], 7, True, False)
 
@@ -834,6 +845,7 @@ def treasure_dragon_round():
 def game_strategy():
     last_stage = "1-0"
     alive = True
+    set_comp(controlMode.comp_to_play_for)
     # while alive retrieve stages and compare to last one, in order to determine stage changes
     while(alive):
         alive = still_alive()
@@ -895,7 +907,7 @@ def give_special_champs_right_pos(lvl):
         if("AurelionSol" == champions.current_champions[i].name and champions.current_champions[i].onBoardBool):
             dragonOnBoard = True
         if(not champions.current_champions[i].onBoardBool and noCompChampFound):
-            if(champions.current_champions[i].name in comps.lux_comp_champs):
+            if(champions.current_champions[i].name in comps.comp_champs):
                 champToMove = champions.current_champions[i]
                 canMove = True
                 noCompChampFound = False
@@ -924,7 +936,7 @@ def sell_first_champ_if_necessary():
         keyboardFunctions.sell_champ(coordinates.champs_on_board[24])
         return True
 
-    elif(champions.current_champions[0].name in comps.lux_comp_champs):
+    elif(champions.current_champions[0].name in comps.comp_champs):
         # keep champ if he has item he needs, sell him if he has different item
         if(champions.current_champions[0].name in comps.champs_with_items):
             for i in range(len(comps.champs_with_items)):
@@ -979,7 +991,7 @@ def sell_first_champ_if_necessary():
 
 def get_index_of_final_comp_champ_in_shop(shop):
     for i in range(len(shop)):
-        if(shop[i] in comps.lux_comp_champs):
+        if(shop[i] in comps.comp_champs):
             return i
 
 def delete_elements_on_bench():
@@ -1010,11 +1022,11 @@ def pve_round(stage):
 
         shop = get_champ_names_shop_smart()
         if(need_to_buy_second_champ):
-            if(len(set(shop).intersection(comps.lux_comp_champs)) > 1):
+            if(len(set(shop).intersection(comps.comp_champs)) > 1):
                 # buy champion that fit in comp
                 print(">1")
                 spend_money(test_gold, shop, lvl, 0)
-            elif(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
+            elif(len(set(shop).intersection(comps.comp_champs)) > 0):
                 # buy one champion that fits in comp and one random one
                 print(">0")
                 spend_money(test_gold, shop, lvl, 0)
@@ -1027,7 +1039,7 @@ def pve_round(stage):
                 keyboardFunctions.buy_champ(0)
                 keyboardFunctions.buy_champ(1)
         else:
-            if(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
+            if(len(set(shop).intersection(comps.comp_champs)) > 0):
                 # buy champion that fit in comp
                 spend_money(test_gold, shop, lvl, 0)
             else:
@@ -1061,7 +1073,7 @@ def pve_round(stage):
         # spend money, buying champs, buying xp, sell champs
         test_gold = 10
         shop = get_champ_names_shop_smart()
-        if(len(set(shop).intersection(comps.lux_comp_champs)) > 0):
+        if(len(set(shop).intersection(comps.comp_champs)) > 0):
             # buy champions that fit in comp
             spend_money(test_gold, shop, lvl, 0)
         else:
@@ -1167,6 +1179,13 @@ def pve_round(stage):
     
 
 def pvp_round(stage):
+    # change from renekton to kayle comp under circumstances
+    if(stage == "2-1"):
+        change_comp_bool = check_whether_to_change_from_ashe_to_kayle_comp()
+        if(change_comp_bool):
+            controlMode.kayle_comp_active = True
+            controlMode.ashe_comp_active = False
+            set_comp("Kayle")
 
     # check important stats, get info
     missing_xp_to_lvl_up = 1
@@ -1234,8 +1253,9 @@ def pvp_round(stage):
         sell_champs_on_bench()
 
         # spend money, buying champs, buying xp, sell champs
-        lvl = spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
-
+        lvl_and_gold = spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
+        lvl = lvl_and_gold[0]
+        remaining_gold = lvl_and_gold[1]
         # if lvl_up in spend_money add unit to board
         add_random_champ_on_board_if_needed(lvl, shop)
 
@@ -1251,7 +1271,7 @@ def pvp_round(stage):
         
         print("lvl 5 and lower")
         # move to top left corner
-        keyboardFunctions.go_to((607, 352))
+        keyboardFunctions.go_to((617, 340))
 
         # restore order on board after krugs
         if(stage == "3-1"):
@@ -1262,8 +1282,9 @@ def pvp_round(stage):
 
         # spend money, buying champs, buying xp, sell champs
         shop = get_champ_names_shop_smart()
-        lvl = spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
-
+        lvl_and_gold = spend_money(gold, shop, lvl, missing_xp_to_lvl_up)
+        lvl = lvl_and_gold[0]
+        remaining_gold = lvl_and_gold[1]
         # delete champs out of current champ list that are on board
         delete_elements_on_bench()
 
@@ -1287,6 +1308,8 @@ def pvp_round(stage):
         # found_items = search_for_new_items_on_bench()
         # if(found_items):
         #     equip_items()
+        if(stage == "3-1"):
+            roll_till_30_gold(remaining_gold)
 
 # func not used yet, don't know when to use it in pvp_strategy
 def check_unit_from_carousel():
@@ -1338,7 +1361,7 @@ def augment_round():
         keyboardFunctions.left_click(coordinates.augment_name_right_click)
 
 def reorganize_board_for_krugs():
-    board_indexes_for_krugs = [12, 6, 19, 26, 18, 13]
+    board_indexes_for_krugs = [5, 6, 4, 3, 18, 13]
     currently_used_indexes_sorted = champions.sortChampOnBoard()
     for i in range(len(currently_used_indexes_sorted)):
         keyboardFunctions.move_things(coordinates.champs_on_board[currently_used_indexes_sorted[i]], coordinates.champs_on_board[board_indexes_for_krugs[i]])
@@ -1347,10 +1370,45 @@ def reorganize_board_for_krugs():
 
 def restore_order_after_krugs():
     currently_used_indexes_sorted = champions.indexes_used
-    board_indexes_for_krugs = [12, 6, 19, 26, 18, 13]
+    board_indexes_for_krugs = [5, 6, 4, 3, 18, 13]
     for i in range(len(currently_used_indexes_sorted)):
         keyboardFunctions.move_things(coordinates.champs_on_board[board_indexes_for_krugs[i]], coordinates.champs_on_board[currently_used_indexes_sorted[i]])
         champions.changePosChamp(coordinates.champs_on_board[board_indexes_for_krugs[i]], coordinates.champs_on_board[currently_used_indexes_sorted[i]])
     champions.indexes_used = []
 
-#print(get_champ_name((coordinates.champ_name_bench[10], coordinates.champ_name_bench[11])))
+def roll_till_30_gold(gold):
+    while(gold > 32):
+        # reroll
+        keyboardFunctions.reroll()
+        gold -= 2
+        shop = get_champ_names_shop_smart()
+        # look for comp units and buy them
+        for i in range(len(shop)):
+            if(shop[i] in comps.comp_champs):
+                # check if champ reached his supposed lvl, if not buy champ
+                if(not comps.comp_champs_max_star_reached[shop[i]]):
+                    keyboardFunctions.buy_champ(i)
+                    gold -= generalData.champion_cost_dict[shop[i]]
+
+
+def set_comp(comp_name):
+    comps.champs_with_items = comps.champs_with_items_dict[comp_name]
+    comps.item_lists = comps.item_lists_dict[comp_name]
+    comps.equipped_items_boolean_lists = comps.equipped_items_boolean_lists_dict[comp_name]
+    comps.comp_champs_on_board = comps.comp_champs_on_board_dict[comp_name]
+    comps.comp_champs_max_star_reached = comps.comp_champs_max_star_reached_dict[comp_name]
+    comps.comp_stars = comps.comp_stars_dict[comp_name]
+    comps.comp_placement_on_board = comps.comp_placement_on_board_dict[comp_name]
+    comps.comp_champs = comps.comp_champs_dict[comp_name]
+    comps.comp_champs_list = comps.comp_champs_list_dict[comp_name]
+    comps.comp_placement_on_board_list = comps.comp_placement_on_board_list_dict[comp_name]
+    comps.augments_ranked = comps.augments_ranked_dict[comp_name]
+
+def check_whether_to_change_from_ashe_to_kayle_comp():
+    # change from Renekton to Kayle comp if Renekton is not on board
+    current_champs = []
+    for i in range(len(champions.current_champions)):
+        current_champs.append(champions.current_champions[i].name)
+    if(not "Ashe" in current_champs):
+        return True
+    return False
