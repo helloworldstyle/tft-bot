@@ -2,10 +2,10 @@ from distutils.command.build_scripts import first_line_re
 import os
 
 # chamge em
-from_here = 'C:/Users/tobia/Documents/Tobias/tft_cheater_current_version/src/itemsList.txt'
-to_there = 'C:/Users/tobia/Documents/Tobias/tft_cheater_current_version/src/itemsListShort.txt'
-rows_between_words = 2
-start_row = 1
+from_here = 'C:/Users/tobia/git-projects/tft-bot/src/augmentsList.txt'
+to_there = 'C:/Users/tobia/git-projects/tft-bot/src/augmentsListShort.txt'
+rows_between_words = 5
+start_row = -1
 
 def readTXT():
     file_name = os.path.join(os.path.dirname(__file__), from_here)
@@ -32,5 +32,3 @@ def readTXT():
                 pointer += 1
                 augment_counter += 1
     print("finished")
-
-readTXT()
