@@ -12,7 +12,9 @@ item_bench_name_layout = coordinates.item_name_bench_layout2 # default
 
 play_ranked_game = False
 
-lux_comp_active = True
+ashe_comp_active = True
+kayle_comp_active = False
+comp_to_play_for = "Ashe"
 
 tobi_pc = True
 benni_pc = False
