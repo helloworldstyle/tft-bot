@@ -1,3 +1,4 @@
+# version: 0.8.1
 
 #stages
 rounds = {"1-1", "1-2", "1-3", "1-4",
@@ -131,7 +132,7 @@ dict_full_items_craftable = {"ArchangelsStaff": ("NeedlesslyLargeRod", "Tearofth
               "GiantSlayer": ("BFSword", "RecurveBow"),
               "MascotEmblem": ("Spatula", "GiantsBelt"),
               "GuinsoosRageblade": ("NeedlesslyLargeRod", "RecurveBow"),
-              "HandofJustice": ("SparringGloves", "TearoftheGoddess"),
+              "HandOfJustice": ("SparringGloves", "TearoftheGoddess"),
               "HextechGunblade": ("BFSword", "NeedlesslyLargeRod"),
               "InfinityEdge": ("BFSword", "SparringGloves"),
               "IonicSpark": ("NeedlesslyLargeRod", "NegatronCloak"),
@@ -326,7 +327,7 @@ champion_cost_dict = {
     "Syndra": 5,
     "Urgot": 5
 }
-print(champion_cost_dict["Senna"])
+
 #augments
 #TODO: some augment names might be flawed
 augments = {"Absolution", "AceHeart", "AdaptiveDefensives", "A.D.M.I.NHeart", "AegisHeart", "AFK", "AimAssist", 
